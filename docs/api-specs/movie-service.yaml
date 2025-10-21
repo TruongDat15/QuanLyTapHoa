@@ -1,0 +1,174 @@
+openapi: 3.0.0
+info:
+  title: Movie API
+  description: API for managing movies
+  version: 1.0.0
+servers:
+  - url: /api
+    description: Base server URL
+
+paths:
+  /movies:
+    get:
+      summary: Lấy danh sách tất cả các phim
+      description: Trả về danh sách tất cả phim trong hệ thống
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+    
+    post:
+      summary: Thêm một phim mới
+      description: Thêm phim mới vào hệ thống
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed to create movie"
+
+  /movies/{movieId}:
+    put:
+      summary: Cập nhật thông tin phim theo ID
+      description: Cập nhật thông tin phim với ID được chỉ định
+      parameters:
+        - in: path
+          name: movieId
+          required: true
+          schema:
+            type: integer
+          description: ID của phim cần cập nhật
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Movie not found"
+    
+    delete:
+      summary: Xóa phim theo ID
+      description: Xóa phim với ID được chỉ định
+      parameters:
+        - in: path
+          name: movieId
+          required: true
+          schema:
+            type: integer
+          description: ID của phim cần xóa
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Movie deleted successfully"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Movie not found"
+
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        movieId:
+          type: integer
+        title:
+          type: string
+        duration:
+          type: integer
+        director:
+          type: string
+        releaseDate:
+          type: string
+          format: date
+        description:
+          type: string
+        posterUrl:
+          type: string
+        language:
+          type: string
+        rating:
+          type: string
+      required:
+        - movieId
+        - title
+        - duration
+        - director
+        - releaseDate
+
+    MovieInput:
+      type: object
+      properties:
+        title:
+          type: string
+        duration:
+          type: integer
+        director:
+          type: string
+        releaseDate:
+          type: string
+          format: date
+        description:
+          type: string
+        posterUrl:
+          type: string
+        language:
+          type: string
+        rating:
+          type: string
+      required:
+        - title
+        - duration
+        - director
+        - releaseDate
