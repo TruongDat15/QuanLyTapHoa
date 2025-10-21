@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
+
 
 public class AuthController {
 
@@ -30,6 +30,8 @@ public class AuthController {
 
     @GetMapping("/hello")
     public String hello() {
+
+        log.info("truy cap thanh cong");
         return "Hello, Login!";
     }
 
