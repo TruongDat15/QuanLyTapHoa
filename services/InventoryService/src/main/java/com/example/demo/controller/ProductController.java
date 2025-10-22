@@ -16,7 +16,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/inventory/products")
 @RequiredArgsConstructor
 public class ProductController {
 

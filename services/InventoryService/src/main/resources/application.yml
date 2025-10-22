@@ -1,4 +1,3 @@
-
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/tessst?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh
@@ -23,4 +22,6 @@ server:
   application:
     name: inventory-service
 
-
+# Thêm jwt.secret để InventoryService có thể decode token tương tự AuthService
+jwt:
+  secret: "VExzN0s2V3p5R2Q1eXJzM29IVG95MFRhUG5nMUFzV1pCenFhWkYxclR0T29rUjJvT3pYckQ0UHVtN09uSjlSNEQxQ0FpY1BicHlCbmJsdmE1c293M01LQXlKMGZ5MXU="

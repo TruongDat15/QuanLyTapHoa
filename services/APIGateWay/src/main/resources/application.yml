@@ -7,19 +7,29 @@ spring:
             - id: inventory-service
               uri: http://localhost:8082
               predicates:
-                - Path=/inventory/**
-              filters:
-                - name: RewritePath
-                  args:
-                    regexp: /inventory/(?<remaining>.*)
-                    replacement: /api/${remaining}
-
+                - Path=/api/inventory/**
             - id: auth-service
               uri: http://localhost:8081
               predicates:
-                - Path=/auth/**
-              filters:
-                - name: RewritePath
-                  args:
-                    regexp: /auth/(?<remaining>.*)
-                    replacement: /api/auth/${remaining}
+                - Path=/api/auth/**
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"   # đổi theo domain frontend
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+
+# JWT secret (use the same secret as AuthService). Prefer loading from env in production.
+jwt:
+  secret: "VExzN0s2V3p5R2Q1eXJzM29IVG95MFRhUG5nMUFzV1pCenFhWkYxclR0T29rUjJvT3pYckQ0UHVtN09uSjlSNEQxQ0FpY1BicHlCbmJsdmE1c293M01LQXlKMGZ5MXU="
+
+server:
+  port: 8080

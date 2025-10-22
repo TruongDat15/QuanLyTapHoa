@@ -14,7 +14,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/admin/products")
+@RequestMapping("/api/auth/test")
 @RequiredArgsConstructor
 public class ProductController {
 
