@@ -7,6 +7,9 @@ import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,6 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/inventory/products")
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class ProductController {
 
     private final ProductService productService;
@@ -25,13 +29,29 @@ public class ProductController {
 
 
     @GetMapping
+
     public List<ProductResponse> getAllProduct(){
         return productService.getAllProducts();
     }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/hello")
     public String sayHi(){
         System.out.println("Hello");
-        return "Hello hello";
+        return "Hello Admin";
+    }
+
+    @GetMapping("/whoami")
+    public String whoAmI() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Authorities: " + auth.getAuthorities());
+        return "Authorities: " + auth.getAuthorities();
+    }
+
+
+    @GetMapping("/test")
+    public ResponseEntity<?> testHeaders(@RequestHeader Map<String, String> headers) {
+        System.out.println("Received headers: " + headers);
+        return ResponseEntity.ok(headers);
     }
 
 

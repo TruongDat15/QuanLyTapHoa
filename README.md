@@ -59,18 +59,18 @@ Hệ thống POS này được thiết kế theo kiến trúc **Microservices**,
 
 ## 1. Overview of Services
 
-| STT | Tên Service         | Chức năng chính (Core Functions)                                        | Độ Ưu Tiên      | Giai Đoạn |
-|-----|---------------------|-------------------------------------------------------------------------|-----------------|-----------|
-| 1   | User & Auth Service | Đăng ký/Đăng nhập, Quản lý nhân viên cơ bản, Phân quyền (JWT)           | Cao (P1)        | Cốt lõi   |
-| 2   | Inventory Service   | Đăng ký/Tìm kiếm sản phẩm, Quản lý danh mục, Quản lý tồn kho (số lượng) | Cao (P1)        | Cốt lõi   |
-| 3   | Order Service       | Tạo hóa đơn bán hàng, Thanh toán, Lưu trữ chi tiết hóa đơn              | Cao (P1)        | Cốt lõi   |
-| 4   | API Gateway         | Định tuyến, Load Balancing, Xác thực JWT cơ bản                         | Cao (P1)        | Cốt lõi   |
-| 5   | Discovery Service   | Đăng ký và tìm kiếm Service (Eureka/Consul)                             | Cao (P1)        | Cốt lõi   |
-| 6   | Supplier Service    | Quản lý thông tin nhà cung cấp, Theo dõi đơn nhập cơ bản                | Trung bình (P2) | Mở rộng   |
-| 7   | CRM Service         | Đăng ký khách hàng, Lưu lịch sử mua hàng, Phân loại khách hàng          | Trung bình (P2) | Mở rộng   |
-| 8   | Payment Service     | Tích hợp cổng thanh toán (VNPAY...)                                     | Trung bình (P2) | Mở rộng   |
-| 9   | Reporting Service   | Báo cáo cơ bản (Doanh thu, Tồn kho, Bán chạy)                           | Trung bình (P2) | Mở rộng   |
-| 10  | Forecasting Service | AI Prophet - Dự báo nhu cầu nhập hàng                                   | Thấp (P3)       | Nâng cao  |
+| STT | Tên Service         | Chức năng chính (Core Functions)                                        | Giai Đoạn |
+|-----|---------------------|-------------------------------------------------------------------------|-----------|
+| 1   | User & Auth Service | Đăng ký/Đăng nhập, Quản lý nhân viên cơ bản, Phân quyền (JWT)           | Cốt lõi   |
+| 2   | Inventory Service   | Đăng ký/Tìm kiếm sản phẩm, Quản lý danh mục, Quản lý tồn kho (số lượng) | Cốt lõi   |
+| 3   | Order Service       | Tạo hóa đơn bán hàng, Thanh toán, Lưu trữ chi tiết hóa đơn              | Cốt lõi   |
+| 4   | API Gateway         | Định tuyến, Load Balancing, Xác thực JWT cơ bản                         | Cốt lõi   |
+| 5   | Discovery Service   | Đăng ký và tìm kiếm Service (Eureka/Consul)                             | Cốt lõi   |
+| 6   | Supplier Service    | Quản lý thông tin nhà cung cấp, Theo dõi đơn nhập cơ bản                | Mở rộng   |
+| 7   | CRM Service         | Đăng ký khách hàng, Lưu lịch sử mua hàng, Phân loại khách hàng          | Mở rộng   |
+| 8   | Payment Service     | Tích hợp cổng thanh toán (VNPAY...)                                     | Mở rộng   |
+| 9   | Reporting Service   | Báo cáo cơ bản (Doanh thu, Tồn kho, Bán chạy)                           | Mở rộng   |
+| 10  | Forecasting Service | AI Prophet - Dự báo nhu cầu nhập hàng                                   | Nâng cao  |
 
 ---
 

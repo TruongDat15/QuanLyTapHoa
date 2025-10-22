@@ -13,19 +13,19 @@ spring:
               predicates:
                 - Path=/api/auth/**
 
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:3000"   # đổi theo domain frontend
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-            allowedHeaders: "*"
-            allowCredentials: true
-            maxAge: 3600
+        globalcors:
+          corsConfigurations:
+            '[/**]':
+              allowedOrigins: "http://localhost:3000"   # đổi theo domain frontend
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - OPTIONS
+              allowedHeaders: "*"
+              allowCredentials: true
+              maxAge: 3600
 
 # JWT secret (use the same secret as AuthService). Prefer loading from env in production.
 jwt:
