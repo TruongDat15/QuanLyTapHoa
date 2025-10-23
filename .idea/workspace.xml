@@ -5,25 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a25d7085-fbf4-4af1-b85e-37852edc1ac9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ImportProductController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/request/ExcelRowRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ImportResultResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportJobLog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/helper/ExcelHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/helper/ExcelTemplateHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/ImportDetailRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/ImportJobLogRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/ImportProductRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ImportProductService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ImportProductImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/resources/templates/import_template.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/SupplierRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/SupplierRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ImportProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ImportProductController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +63,11 @@
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\QuanLiTapHoa\services\InventoryService\src\main\resources\templates" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.DemoApplication">
     <configuration name="ApiGateWayApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.APIGateWay.ApiGateWayApplication" />

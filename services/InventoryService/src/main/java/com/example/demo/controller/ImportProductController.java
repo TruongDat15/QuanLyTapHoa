@@ -5,6 +5,7 @@ import com.example.demo.dto.response.ImportResultResponse;
 import com.example.demo.helper.ExcelTemplateHelper;
 import com.example.demo.service.ImportProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -27,14 +28,16 @@ public class ImportProductController {
         return "Import Product Endpoint is working!";
     }
 
+
     @GetMapping("/download-template")
-    public ResponseEntity<InputStreamResource> downloadImportTemplate() throws IOException {
-        ByteArrayInputStream in = ExcelTemplateHelper.createImportTemplate();
+    public ResponseEntity<InputStreamResource> downloadTemplate() throws IOException {
+        ClassPathResource resource = new ClassPathResource("templates/import_template.xlsx");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=import_template.xlsx")
-                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-                .body(new InputStreamResource(in));
+                .contentType(MediaType.parseMediaType(
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(new InputStreamResource(resource.getInputStream()));
     }
 
     @PostMapping("/upload")
@@ -46,5 +49,6 @@ public class ImportProductController {
         ImportResultResponse importResultResponse = importProductService.processExcelRow(file, supplierId);
         return ResponseEntity.ok(importResultResponse);
     }
+
 
 }
