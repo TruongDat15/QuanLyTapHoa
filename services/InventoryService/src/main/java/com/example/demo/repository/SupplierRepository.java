@@ -6,8 +6,11 @@ import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@Hidden
-@RepositoryRestResource(collectionResourceRel = "supplier", path = "supplier")
+import java.util.Optional;
+
+
+//@RepositoryRestResource(collectionResourceRel = "supplier", path = "supplier")
 public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
+
 }
 

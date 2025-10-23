@@ -19,19 +19,21 @@ public class ImportProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer importProductId;
 
+    private String code;
+
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
     private String createdBy;
 
- //   @Column(precision = 18, scale = 2)
     private Double totalAmount;
 
     private String status; // pending, received, cancelled...
 
     private LocalDateTime createdAt;
     private LocalDateTime receivedAt;
+
 
     @OneToMany(mappedBy = "importProduct", cascade = CascadeType.ALL)
     private List<ImportDetail> importDetails;

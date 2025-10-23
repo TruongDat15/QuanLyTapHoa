@@ -20,7 +20,7 @@ public class Product implements Serializable {
     @Column(name = "product_id")
     private Integer productId;
 
-    @Column(name = "product_name", nullable = false)
+    @Column(name = "product_name")
     private String productName;
 
     @ManyToOne
@@ -39,8 +39,11 @@ public class Product implements Serializable {
     @Column(name = "cost_of_capital")
     private Double costOfCapital;
 
-    @Column(name = "quantity_in_stock")
-    private Integer quantityInStock;
+    @Column(name = "discount")
+    private Double discount;
+
+    @Column(name = "quantity_in_stock", nullable = false)
+    private Integer quantityInStock = 0;
 
     @Column(name = "is_active")
     private Boolean isActive;

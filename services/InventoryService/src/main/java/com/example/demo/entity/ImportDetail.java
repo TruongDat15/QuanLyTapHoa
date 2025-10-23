@@ -25,7 +25,7 @@ public class ImportDetail {
     private ImportProduct importProduct;
 
     private Integer quantity;
-
+    private String unit;
  //   @Column(precision = 18, scale = 2)
     private Double importPrice;
 
