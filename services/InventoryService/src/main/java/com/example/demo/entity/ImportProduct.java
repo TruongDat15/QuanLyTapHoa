@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 
 
+import com.example.demo.enums.ImportStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +30,9 @@ public class ImportProduct {
 
     private Double totalAmount;
 
-    private String status; // pending, received, cancelled...
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ImportStatus status; // pending, received, cancelled...
 
     private LocalDateTime createdAt;
     private LocalDateTime receivedAt;

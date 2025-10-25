@@ -25,7 +25,9 @@ public class ImportProductController {
 
     @GetMapping("/test")
     public String testImportProduct() {
-        return "Import Product Endpoint is working!";
+
+        String now = java.time.LocalDateTime.now().toString();
+        return "Import Product Endpoint is working!" + now;
     }
 
 
@@ -43,10 +45,11 @@ public class ImportProductController {
     @PostMapping("/upload")
     public ResponseEntity<ImportResultResponse> uploadExcelFile(
             @RequestParam("supplierId") Integer supplierId,
-            @RequestParam("file") MultipartFile file) throws IOException {
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(required = false, defaultValue = "false") boolean finalSave) throws IOException {
         // Implementation for file upload and processing goes here
 
-        ImportResultResponse importResultResponse = importProductService.processExcelRow(file, supplierId);
+        ImportResultResponse importResultResponse = importProductService.processExcelRow(file, supplierId, finalSave);
         return ResponseEntity.ok(importResultResponse);
     }
 

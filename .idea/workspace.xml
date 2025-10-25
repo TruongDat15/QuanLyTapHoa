@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a25d7085-fbf4-4af1-b85e-37852edc1ac9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/resources/templates/import_template.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/enums/ImportStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ImportProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ImportProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ImportProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ImportProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ImportProductImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ImportProductImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +22,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="Kotlin Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>

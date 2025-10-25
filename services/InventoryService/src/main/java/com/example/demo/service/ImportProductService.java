@@ -9,5 +9,5 @@ import java.io.IOException;
 @Service
 
 public interface ImportProductService {
-    ImportResultResponse processExcelRow(MultipartFile file, Integer supplierId) throws IOException;
+    ImportResultResponse processExcelRow(MultipartFile file, Integer supplierId, Boolean finalSave) throws IOException;
 }

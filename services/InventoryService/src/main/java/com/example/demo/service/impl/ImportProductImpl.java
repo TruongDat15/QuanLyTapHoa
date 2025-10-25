@@ -6,6 +6,7 @@ import com.example.demo.dto.response.ImportResultResponse;
 import com.example.demo.entity.ImportDetail;
 import com.example.demo.entity.ImportProduct;
 import com.example.demo.entity.Product;
+import com.example.demo.enums.ImportStatus;
 import com.example.demo.helper.ExcelHelper;
 import com.example.demo.repository.*;
 import com.example.demo.service.ImportProductService;
@@ -36,7 +37,7 @@ public class ImportProductImpl implements ImportProductService {
 
     @Transactional
     @Override
-    public ImportResultResponse processExcelRow(MultipartFile file, Integer supplierId) throws IOException {
+    public ImportResultResponse processExcelRow(MultipartFile file, Integer supplierId, Boolean isSave) throws IOException {
         List<String> errors = new ArrayList<>();
         int successCount = 0;
         int failCount = 0;
@@ -71,7 +72,7 @@ public class ImportProductImpl implements ImportProductService {
             ImportProduct importProduct = new ImportProduct();
             importProduct.setSupplier(supplier);
             importProduct.setReceivedAt(now);
-            importProduct.setStatus("Pending");
+            importProduct.setStatus(ImportStatus.PENDING);
             importProduct = importProductRepository.save(importProduct);
 
             // Xử lý từng dòng trong Excel
@@ -125,7 +126,7 @@ public class ImportProductImpl implements ImportProductService {
             }
 
             // Cập nhật trạng thái phiếu nhập
-            importProduct.setStatus(failCount == 0 ? "Completed" : "Completed_With_Errors");
+            importProduct.setStatus(failCount == 0 ? ImportStatus.COMPLETED : ImportStatus.COMPLETED_WITH_ERRORS);
             importProductRepository.save(importProduct);
 
             String message = failCount == 0

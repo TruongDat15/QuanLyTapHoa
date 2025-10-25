@@ -1,0 +1,10 @@
+server:
+  port: 8083
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://truongtruongdatdat15_db_user:orNafh1CqjE6rSyA@cluster0.gxgafjw.mongodb.net/pos_crm
+      database: pos_crm
+  application:
+    name: customer-service
