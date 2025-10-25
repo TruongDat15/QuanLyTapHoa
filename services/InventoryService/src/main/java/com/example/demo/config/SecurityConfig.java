@@ -93,7 +93,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest()
                         .permitAll())
-//                        .authenticated())
+//                        .authenticated())   // tạm thời bỏ xác thực để dễ test
                 .addFilterBefore(new HeaderAuthFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

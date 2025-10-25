@@ -11,6 +11,7 @@ public class HelloController {
 
     @GetMapping
     public String hello() {
+        System.out.println("🔐 Mongo URI = " + System.getenv("MONGO_URI"));
         return "Hello, Customer Service is up and running!";
     }
 }
