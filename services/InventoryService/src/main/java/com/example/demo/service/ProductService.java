@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface ProductService {
     List<ProductResponse> getAllProducts();
+    List<ProductResponse> getAllActiveProducts();
+
     Optional<ProductResponse> getProductByBarcode(String barcode);
     Optional<ProductResponse> updateProduct(Integer productId, ProductRequest productRequest);
     void deleteProduct(Integer productId);

@@ -30,7 +30,7 @@ public class ImportProductController {
         return "Import Product Endpoint is working!" + now;
     }
 
-
+    // Tải file mẫu excel để nhập phiếu nhập hàng
     @GetMapping("/download-template")
     public ResponseEntity<InputStreamResource> downloadTemplate() throws IOException {
         ClassPathResource resource = new ClassPathResource("templates/import_template.xlsx");
@@ -42,6 +42,7 @@ public class ImportProductController {
                 .body(new InputStreamResource(resource.getInputStream()));
     }
 
+    // Nhập phiếu nhập hàng từ file excel
     @PostMapping("/upload")
     public ResponseEntity<ImportResultResponse> uploadExcelFile(
             @RequestParam("supplierId") Integer supplierId,
@@ -52,6 +53,5 @@ public class ImportProductController {
         ImportResultResponse importResultResponse = importProductService.processExcelRow(file, supplierId, finalSave);
         return ResponseEntity.ok(importResultResponse);
     }
-
 
 }

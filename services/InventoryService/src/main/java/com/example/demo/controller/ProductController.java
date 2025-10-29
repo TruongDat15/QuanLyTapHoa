@@ -7,8 +7,8 @@ import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,18 +21,19 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/inventory/products")
 @RequiredArgsConstructor
-@EnableMethodSecurity
+
 public class ProductController {
 
     private final ProductService productService;
     private final com.example.demo.repository.ProductRepository productRepository;
 
-
+    // lấy tất cả sản phẩm
     @GetMapping
-
     public List<ProductResponse> getAllProduct(){
         return productService.getAllProducts();
     }
+
+
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/hello")
     public String sayHi(){
@@ -54,7 +55,7 @@ public class ProductController {
         return ResponseEntity.ok(headers);
     }
 
-
+    // lấy sản phẩm theo barcode
     @GetMapping("/barcode/{barcode}")
     public ResponseEntity<?> getByBarcode(@PathVariable String barcode) {
         Optional<ProductResponse> productResponseOpt = productService.getProductByBarcode(barcode);
@@ -65,12 +66,15 @@ public class ProductController {
         return ResponseEntity.ok(productResponseOpt.get());
     }
 
+    // tạo sản phẩm
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
         ProductResponse createdProduct = productService.createProduct(productRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
+
+    // cập nhật sản phẩm
     @PutMapping("/{productId}")
     public ResponseEntity<?> updateProduct(@PathVariable Integer productId, @RequestBody ProductRequest productRequest) {
         Optional<ProductResponse> updatedProductOpt = productService.updateProduct(productId, productRequest);
@@ -81,6 +85,8 @@ public class ProductController {
         return ResponseEntity.ok(updatedProductOpt.get());
     }
 
+
+    // xoá sản phẩm
     @DeleteMapping("/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer productId) {
         Optional<Product> productOpt = productRepository.findById(productId);

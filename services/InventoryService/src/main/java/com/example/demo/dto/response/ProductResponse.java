@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ProductResponse {
-
+    private Integer productId;
     private String productName;
     private String categoryName;
     private String unit;

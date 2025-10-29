@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="88e4647d-c753-48b5-8189-49f0576e8945" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Contructor.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deepseek.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/APIGateWay/src/main/java/com/example/APIGateWay/config/CorsGlobalConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/InventoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/config/HeaderFilterConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/OrderItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/OrderStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/PaymentMethod.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/common/src/main/java/com/example/common/dto/customerdtos/CreateCustomerRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/common/src/main/java/com/example/common/dto/customerdtos/CustomerResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/common/src/main/java/com/example/common/dto/customerdtos/RefundPointRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/common/src/main/java/com/example/common/dto/customerdtos/UpdatePointRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/common/src/main/resources/application-example.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/APIGateWay/src/main/java/com/example/APIGateWay/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/APIGateWay/src/main/java/com/example/APIGateWay/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/APIGateWay/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/services/APIGateWay/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/dto/request/CreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/dto/request/CreateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/dto/response/UserProfileDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/dto/response/UserProfileDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/CustomerService/src/main/java/com/example/CustomerService/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/CustomerService/src/main/java/com/example/CustomerService/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ImportProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ImportProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ProductResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ProductImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ProductImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/config/DotenvConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/service-a/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/service-b/readme.md" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;TruongDat15&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/TruongDat15/QuanLyTapHoa.git&quot;,
+    &quot;accountId&quot;: &quot;fa82da59-2f44-4995-967a-c73cc019022e&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="34jgI91iALW0RGLgrt6OR2qa27V" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.ApiGateWayApplication.executor": "Run",
+    "Application.AuthServiceApplication.executor": "Run",
+    "Application.DemoApplication.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "org.work.deepseekunit.tool.settings.CodeAssistSettingsConfigurable"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.DemoApplication">
+    <configuration name="ApiGateWayApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.APIGateWay.ApiGateWayApplication" />
+      <module name="APIGateWay" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.APIGateWay.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthServiceApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.AuthService.AuthServiceApplication" />
+      <module name="AuthService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.AuthService.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DemoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.demo.DemoApplication" />
+      <module name="InventoryService" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.demo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.DemoApplication" />
+        <item itemvalue="Application.ApiGateWayApplication" />
+        <item itemvalue="Application.AuthServiceApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="88e4647d-c753-48b5-8189-49f0576e8945" name="Changes" comment="" />
+      <created>1761732313980</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761732313980</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -3,6 +3,7 @@ package com.example.APIGateWay.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
@@ -36,7 +37,8 @@ public class SecurityConfig {
         http
             .csrf(ServerHttpSecurity.CsrfSpec::disable)
             .authorizeExchange(exchanges -> exchanges
-                .pathMatchers("/api/auth/**", "/actuator/**").permitAll()
+                    .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .pathMatchers("/api/auth/**", "/actuator/**").permitAll()
                 .anyExchange().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(reactiveJwtAuthenticationConverter())));
@@ -56,4 +58,6 @@ public class SecurityConfig {
 
         return new ReactiveJwtAuthenticationConverterAdapter(jwtConverter);
     }
+
+
 }

@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -32,6 +35,12 @@ public class UserService {
                 .username(createRequest.getUsername())
                 .password(passwordEncoder.encode(createRequest.getPassword()))
                 .role("ROLE_USER") // Mặc định là ROLE_USER, có thể thay đổi theo yêu cầu
+                .fullName(createRequest.getFullName())
+                .email(createRequest.getEmail())
+                .phoneNumber(createRequest.getPhoneNumber())
+                .address(createRequest.getAddress())
+                .gender(createRequest.getGender())
+                .dateOfBirth(createRequest.getDateOfBirth())
                 .build();
         userRepository.save(user);
 
@@ -78,18 +87,6 @@ public class UserService {
         User user = userRepository.findByUsername(currentUsername)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Cập nhật thông tin người dùng
-
-//        if(!user.isUpdatedProfile() ||isAdmin) {
-//            user.setFullName(userProfileDTO.getFullName());
-//            user.setEmail(userProfileDTO.getEmail());
-//            user.setPhoneNumber(userProfileDTO.getPhoneNumber());
-//            user.setAddress(userProfileDTO.getAddress());
-//            user.setDateOfBirth(userProfileDTO.getDateOfBirth());
-//            user.setGender(userProfileDTO.getGender());
-//            user.setUpdatedProfile(true);
-//        }
-
         user.setFullName(userProfileDTO.getFullName());
         user.setEmail(userProfileDTO.getEmail());
         user.setPhoneNumber(userProfileDTO.getPhoneNumber());
@@ -107,7 +104,24 @@ public class UserService {
                 .address(user.getAddress())
                 .dateOfBirth(user.getDateOfBirth())
                 .build();
-    }
+        }
 
+    public List<UserProfileDTO> getAllProfiles() {
+        List<User> users = userRepository.findAll();
+
+        return users.stream()
+                .map(user -> UserProfileDTO.builder()
+                        .username(user.getUsername())
+                        .fullName(user.getFullName())
+                        .email(user.getEmail())
+                        .phoneNumber(user.getPhoneNumber())
+                        .address(user.getAddress())
+                        .dateOfBirth(user.getDateOfBirth())
+                        .role(user.getRole())
+                        .gender(user.getGender())
+                        .build()
+                )
+                .collect(Collectors.toList());
+    }
 
 }

@@ -12,18 +12,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth/users")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173", allowedHeaders = "*")
+
 public class UserController {
 
     private final UserService userService;
 
 
-    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+ //   @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     @PostMapping("/create")
     public CreateResponse register(@RequestBody CreateRequest createRequest) {
         return userService.register(createRequest);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<Object> getAllProfiles() {
+        return ResponseEntity.ok(userService.getAllProfiles());
+    }
 
 
     // Xem thong tin ban than

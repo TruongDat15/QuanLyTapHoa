@@ -2,15 +2,16 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile name="Annotation profile for APIGateWay" enabled="true">
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Annotation profile for Common Library" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
         </processorPath>
-        <module name="APIGateWay" />
+        <module name="common" />
       </profile>
       <profile name="Annotation profile for AuthService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -21,7 +22,17 @@
         </processorPath>
         <module name="AuthService" />
       </profile>
-      <profile name="Annotation profile for CustomerService" enabled="true">
+      <profile name="Annotation profile for InventoryService" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="APIGateWay" />
+        <module name="InventoryService" />
+      </profile>
+      <profile name="Annotation profile for SagaOrchestrator" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -29,16 +40,8 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="OrderService" />
+        <module name="SagaOrchestrator" />
         <module name="CustomerService" />
-      </profile>
-      <profile name="Annotation profile for demo" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-        </processorPath>
-        <module name="demo" />
       </profile>
     </annotationProcessing>
   </component>
@@ -47,8 +50,9 @@
       <module name="APIGateWay" options="-parameters" />
       <module name="AuthService" options="-parameters" />
       <module name="CustomerService" options="-parameters" />
+      <module name="InventoryService" options="-parameters" />
       <module name="OrderService" options="-parameters" />
-      <module name="demo" options="-parameters" />
+      <module name="SagaOrchestrator" options="-parameters" />
     </option>
   </component>
 </project>

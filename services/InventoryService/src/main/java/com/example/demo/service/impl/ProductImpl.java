@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 
 
-
 @Service
 @RequiredArgsConstructor
 public class ProductImpl implements ProductService {
@@ -31,6 +30,7 @@ public class ProductImpl implements ProductService {
     public List<ProductResponse> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return products.stream().map(product -> ProductResponse.builder()
+                        .productId(product.getProductId())
                         .productName(product.getProductName())
                         .categoryName(product.getCategory() != null ? product.getCategory().getCategoryName() : null)
                         .unit(product.getUnit())
@@ -39,6 +39,11 @@ public class ProductImpl implements ProductService {
                         .quantityInStock(product.getQuantityInStock())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponse> getAllActiveProducts() {
+        return List.of();
     }
 
     @Override
@@ -102,15 +107,25 @@ public class ProductImpl implements ProductService {
 
 
 
+//    @Override
+//    public void deleteProduct(Integer productId) {
+//        if (!productRepository.existsById(productId)) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+//        }
+//
+//        productRepository.deleteById(productId);
+//    }
+
     @Override
     public void deleteProduct(Integer productId) {
-        if (!productRepository.existsById(productId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
-        }
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
-        productRepository.deleteById(productId);
+        // Soft delete: chỉ set isActive = false và cập nhật lastUpdated
+        product.setIsActive(false);
+        product.setLastUpdated(LocalDateTime.now());
+        productRepository.save(product);
     }
-
 
 
     @Override
