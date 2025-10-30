@@ -1,5 +1,7 @@
 package com.example.demo.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.demo.dto.request.ProductRequest;
 import com.example.demo.dto.response.ProductResponse;
 import com.example.demo.entity.Category;
@@ -10,10 +12,13 @@ import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,6 +30,7 @@ public class ProductImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final Cloudinary cloudinary;
 
     @Override
     public List<ProductResponse> getAllProducts() {
@@ -42,6 +48,7 @@ public class ProductImpl implements ProductService {
                         .brandName(product.getBrand() != null ? product.getBrand().getBrandName() : null)
                         .costOfCapital(product.getCostOfCapital())
                         .discount(product.getDiscount())
+                        .image(product.getImage())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -134,7 +141,7 @@ public class ProductImpl implements ProductService {
 
 
     @Override
-    public ProductResponse createProduct(ProductRequest productRequest) {
+    public ProductResponse createProduct(ProductRequest productRequest, MultipartFile file) throws IOException {
         Category category = null;
         if (productRequest.getCategoryId() != null) {
             category = categoryRepository.findById(productRequest.getCategoryId())
@@ -145,6 +152,7 @@ public class ProductImpl implements ProductService {
         if (barcode != null && productRepository.findByBarcode(barcode).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Barcode already exists");
         }
+
 
         Product product = Product.builder()
                 .productName(productRequest.getProductName())
@@ -158,6 +166,16 @@ public class ProductImpl implements ProductService {
 
         Product savedProduct = productRepository.save(product);
 
+
+        if (file != null && !file.isEmpty()) {
+            String imageUrl = uploadImage(file, savedProduct.getProductId()); // chưa có productId, Cloudinary folder có thể dùng tên tạm
+            product.setImage(imageUrl);
+            productRepository.save(product);
+        } else {
+            product.setImage("https://res.cloudinary.com/dxr2k9oz2/image/upload/v1761802800/defautImage_rozrkb.png"); // FE không gửi ảnh → để null
+            productRepository.save(product);
+        }
+
         return ProductResponse.builder()
                 .productName(savedProduct.getProductName())
                 .categoryName(savedProduct.getCategory() != null ? savedProduct.getCategory().getCategoryName() : null)
@@ -165,7 +183,33 @@ public class ProductImpl implements ProductService {
                 .barcode(savedProduct.getBarcode())
                 .sellingPrice(savedProduct.getSellingPrice())
                 .quantityInStock(savedProduct.getQuantityInStock())
+                .lastUpdated(savedProduct.getLastUpdated())
+                .image(savedProduct.getImage())
                 .build();
+    }
+
+    @Override
+    public String uploadImage(MultipartFile file, Integer productId) throws IOException {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+
+        String contentType = file.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
+            throw new RuntimeException("Chỉ hỗ trợ file ảnh!");
+        }
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap("folder", "products/" + productId));  // Folder theo ID
+
+        // Lấy URL
+        String imageUrl = (String) uploadResult.get("secure_url");
+
+        // Cập nhật Product
+        product.setImage(imageUrl);
+
+        // Lưu DB
+        productRepository.save(product);
+
+        return imageUrl;
     }
 
 

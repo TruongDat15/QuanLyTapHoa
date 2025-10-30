@@ -1,3 +1,4 @@
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/tessst?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh
@@ -16,12 +17,21 @@ spring:
         format_sql: none
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 server:
   address: 0.0.0.0
   port: 8082
   application:
     name: inventory-service
 
-# Thêm jwt.secret để InventoryService có thể decode token tương tự AuthService
+cloudinary:
+  cloud-name: dxr2k9oz2
+  api-key: 196537191738478
+  api-secret: LaYMCuRb2qypeH8CXJa9AWeq1z0
+
 jwt:
   secret: "VExzN0s2V3p5R2Q1eXJzM29IVG95MFRhUG5nMUFzV1pCenFhWkYxclR0T29rUjJvT3pYckQ0UHVtN09uSjlSNEQxQ0FpY1BicHlCbmJsdmE1c293M01LQXlKMGZ5MXU="

@@ -11,8 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,8 +69,9 @@ public class ProductController {
 
     // tạo sản phẩm
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
-        ProductResponse createdProduct = productService.createProduct(productRequest);
+    public ResponseEntity<ProductResponse> createProduct(@ModelAttribute ProductRequest productRequest) throws IOException {
+        MultipartFile file = productRequest.getFile(); // có thể null nếu FE không gửi
+        ProductResponse createdProduct = productService.createProduct(productRequest, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
@@ -96,6 +98,16 @@ public class ProductController {
         }
         productService.deleteProduct(productId);
         return ResponseEntity.noContent().build();
+    }
+
+
+
+
+    @PostMapping("/{id}/image")
+    public ResponseEntity<String> uploadImage(@PathVariable Integer id,
+                                              @RequestParam("file") MultipartFile file) throws IOException {
+        String imageUrl = productService.uploadImage(file, id);
+        return ResponseEntity.ok(imageUrl);
     }
 
 }

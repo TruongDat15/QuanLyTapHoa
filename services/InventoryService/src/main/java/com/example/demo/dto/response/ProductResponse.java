@@ -25,4 +25,5 @@ public class ProductResponse {
     private String brandName;
     private Double costOfCapital;
     private Double discount;
+    private String image;
 }

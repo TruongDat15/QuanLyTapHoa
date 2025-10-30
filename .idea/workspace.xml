@@ -5,11 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="88e4647d-c753-48b5-8189-49f0576e8945" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/Brand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/CloudinaryConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/request/ProductRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/request/ProductRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ProductResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ProductService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ProductImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ProductImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,8 +65,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "settings.editor.selected.configurable": "org.work.deepseekunit.tool.settings.CodeAssistSettingsConfigurable"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RunManager" selected="Application.DemoApplication">
@@ -106,8 +113,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.DemoApplication" />
-        <item itemvalue="Application.ApiGateWayApplication" />
         <item itemvalue="Application.AuthServiceApplication" />
+        <item itemvalue="Application.ApiGateWayApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -143,5 +150,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/CloudinaryConfig.java</url>
+          <line>2</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -55,6 +55,8 @@ public class Product implements Serializable {
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
 
+    private String image;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ImportDetail> importDetails;
 
