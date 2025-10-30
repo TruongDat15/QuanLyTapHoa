@@ -5,16 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="88e4647d-c753-48b5-8189-49f0576e8945" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/CloudinaryConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/SupplierController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/SupplierDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/request/ImportDetailRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/request/ImportProductRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ImportDetailResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ImportProductResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/SupplierService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/SupplierImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/request/ProductRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/request/ProductRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ProductResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ImportProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ImportProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ImportResultResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/dto/response/ImportResultResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportDetail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportJobLog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/ImportProduct.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ProductImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ProductImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/enums/ImportStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/enums/ImportStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/ImportJobLogRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/SupplierRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/SupplierRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ImportProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ImportProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ImportProductImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ImportProductImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +35,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -113,8 +124,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.DemoApplication" />
-        <item itemvalue="Application.AuthServiceApplication" />
         <item itemvalue="Application.ApiGateWayApplication" />
+        <item itemvalue="Application.AuthServiceApplication" />
       </list>
     </recent_temporary>
   </component>

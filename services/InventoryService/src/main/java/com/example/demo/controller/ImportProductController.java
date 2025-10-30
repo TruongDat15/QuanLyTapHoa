@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dto.request.ImportProductRequest;
+import com.example.demo.dto.response.ImportProductResponse;
 import com.example.demo.dto.response.ImportResultResponse;
 import com.example.demo.helper.ExcelTemplateHelper;
 import com.example.demo.service.ImportProductService;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class ImportProductController {
         return "Import Product Endpoint is working!" + now;
     }
 
+
     // Tải file mẫu excel để nhập phiếu nhập hàng
     @GetMapping("/download-template")
     public ResponseEntity<InputStreamResource> downloadTemplate() throws IOException {
@@ -42,16 +46,28 @@ public class ImportProductController {
                 .body(new InputStreamResource(resource.getInputStream()));
     }
 
-    // Nhập phiếu nhập hàng từ file excel
-    @PostMapping("/upload")
-    public ResponseEntity<ImportResultResponse> uploadExcelFile(
-            @RequestParam("supplierId") Integer supplierId,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam(required = false, defaultValue = "false") boolean finalSave) throws IOException {
-        // Implementation for file upload and processing goes here
-
-        ImportResultResponse importResultResponse = importProductService.processExcelRow(file, supplierId, finalSave);
-        return ResponseEntity.ok(importResultResponse);
+    @PostMapping
+    public ResponseEntity<ImportProductResponse> create(@RequestBody ImportProductRequest request) {
+        return ResponseEntity.ok(importProductService.createImportProduct(request));
     }
+
+    @GetMapping
+    public ResponseEntity<List<ImportProductResponse>> getAllImportProducts() {
+        List<ImportProductResponse> responses = importProductService.getAllImportProducts();
+        return ResponseEntity.ok(responses);
+    }
+
+
+//    // Nhập phiếu nhập hàng từ file excel
+//    @PostMapping("/upload")
+//    public ResponseEntity<ImportResultResponse> uploadExcelFile(
+//            @RequestParam("supplierId") Integer supplierId,
+//            @RequestParam("file") MultipartFile file,
+//            @RequestParam(required = false, defaultValue = "false") boolean finalSave) throws IOException {
+//        // Implementation for file upload and processing goes here
+//
+//        ImportResultResponse importResultResponse = importProductService.processExcelRow(file, supplierId, finalSave);
+//        return ResponseEntity.ok(importResultResponse);
+//    }
 
 }

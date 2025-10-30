@@ -20,7 +20,7 @@ public class ImportProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer importProductId;
 
-    private String code;
+    private String note;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
@@ -32,10 +32,10 @@ public class ImportProduct {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private ImportStatus status; // pending, received, cancelled...
+    private ImportStatus status; // draft, complete
 
     private LocalDateTime createdAt;
-    private LocalDateTime receivedAt;
+    private LocalDateTime updatedAt;
 
 
     @OneToMany(mappedBy = "importProduct", cascade = CascadeType.ALL)

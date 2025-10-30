@@ -2,6 +2,7 @@ package com.example.demo.dto.response;
 
 
 
+import com.example.demo.enums.ImportStatus;
 import lombok.*;
 import java.util.List;
 
@@ -15,4 +16,7 @@ public class ImportResultResponse {
     private int failedRows;
     private String message;
     private List<String> errors;
+    private List<ImportDetailResponse> importDetails;
+    // status
+    private ImportStatus status;
 }

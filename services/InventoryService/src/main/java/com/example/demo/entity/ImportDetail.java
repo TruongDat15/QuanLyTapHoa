@@ -16,9 +16,7 @@ public class ImportDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private String barcode;
 
     @ManyToOne
     @JoinColumn(name = "import_product_id")
@@ -31,4 +29,6 @@ public class ImportDetail {
 
    // @Column(precision = 18, scale = 2)
     private Double subtotal;
+
+    private Double discount;
 }

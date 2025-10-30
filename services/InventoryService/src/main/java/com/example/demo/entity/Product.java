@@ -57,8 +57,8 @@ public class Product implements Serializable {
 
     private String image;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ImportDetail> importDetails;
+
+//    private List<ImportDetail> importDetails;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductPriceHistory> priceHistories;
