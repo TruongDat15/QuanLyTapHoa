@@ -21,4 +21,8 @@ public class ProductResponse {
     private Double sellingPrice;
     private Integer quantityInStock;
     private LocalDateTime lastUpdated;
+    private Boolean isActive;
+    private String brandName;
+    private Double costOfCapital;
+    private Double discount;
 }

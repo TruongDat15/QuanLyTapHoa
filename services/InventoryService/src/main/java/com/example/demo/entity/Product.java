@@ -27,6 +27,10 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
     @Column(name = "unit")
     private String unit;
 
@@ -56,4 +60,18 @@ public class Product implements Serializable {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductPriceHistory> priceHistories;
+
+
+    @PrePersist
+    protected void onCreate() {
+        lastUpdated = LocalDateTime.now();
+        if (isActive == null) {
+            isActive = true; // mặc định khi tạo mới
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdated = LocalDateTime.now();
+    }
 }

@@ -37,6 +37,11 @@ public class ProductImpl implements ProductService {
                         .barcode(product.getBarcode())
                         .sellingPrice(product.getSellingPrice())
                         .quantityInStock(product.getQuantityInStock())
+                        .lastUpdated(product.getLastUpdated())
+                        .isActive(product.getIsActive())
+                        .brandName(product.getBrand() != null ? product.getBrand().getBrandName() : null)
+                        .costOfCapital(product.getCostOfCapital())
+                        .discount(product.getDiscount())
                         .build())
                 .collect(Collectors.toList());
     }
