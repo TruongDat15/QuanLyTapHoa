@@ -3,6 +3,7 @@ package com.example.AuthService.controller;
 import com.example.AuthService.dto.request.CreateRequest;
 import com.example.AuthService.dto.response.CreateResponse;
 import com.example.AuthService.dto.response.UserProfileDTO;
+import com.example.AuthService.entity.User;
 import com.example.AuthService.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -47,4 +48,17 @@ public class UserController {
     public String hello() {
         return "Hello, Profile";
     }
+
+    // xoá người dùng
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        try {
+            User deletedUser = userService.deleteUser(id);
+            return ResponseEntity.ok(deletedUser); // trả về JSON của user đã xoá
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
+
 }

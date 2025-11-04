@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +35,7 @@ public class UserService {
         User user = User.builder()
                 .username(createRequest.getUsername())
                 .password(passwordEncoder.encode(createRequest.getPassword()))
-                .role("ROLE_USER") // Mặc định là ROLE_USER, có thể thay đổi theo yêu cầu
+                .role(createRequest.getRole() != null ? createRequest.getRole() : "ROLE_USER") // Mặc định là ROLE_USER, có thể thay đổi theo yêu cầu
                 .fullName(createRequest.getFullName())
                 .email(createRequest.getEmail())
                 .phoneNumber(createRequest.getPhoneNumber())
@@ -93,6 +94,9 @@ public class UserService {
         user.setAddress(userProfileDTO.getAddress());
         user.setDateOfBirth(userProfileDTO.getDateOfBirth());
         user.setGender(userProfileDTO.getGender());
+        if (isAdmin) {
+            user.setRole(userProfileDTO.getRole());
+        }
         user.setUpdatedProfile(true);
         userRepository.save(user);
 
@@ -103,6 +107,8 @@ public class UserService {
                 .phoneNumber(user.getPhoneNumber())
                 .address(user.getAddress())
                 .dateOfBirth(user.getDateOfBirth())
+                .role(user.getRole())
+                .gender(user.getGender())
                 .build();
         }
 
@@ -111,6 +117,7 @@ public class UserService {
 
         return users.stream()
                 .map(user -> UserProfileDTO.builder()
+                        .userID(user.getId())
                         .username(user.getUsername())
                         .fullName(user.getFullName())
                         .email(user.getEmail())
@@ -124,4 +131,12 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+
+    @Transactional
+    public User deleteUser(Long id) {
+        User user = userRepository.findById(Math.toIntExact(id))
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy user với id: " + id));
+        userRepository.delete(user);
+        return user; // trả về dữ liệu user đã xoá
+    }
 }

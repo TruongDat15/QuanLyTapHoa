@@ -14,6 +14,8 @@ public class CreateRequest {
     private String phoneNumber;
     private String address;
     private Integer gender;
+    private String role;
+
 //
 //    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dateOfBirth;

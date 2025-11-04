@@ -59,6 +59,27 @@ public class ProductImpl implements ProductService {
     }
 
     @Override
+    public List<ProductResponse> getAllWithCategoryAndBrand() {
+        List<Product> products = productRepository.findAllWithCategoryAndBrand();
+        return products.stream().map(product -> ProductResponse.builder()
+                        .productId(product.getProductId())
+                        .productName(product.getProductName())
+                        .categoryName(product.getCategory() != null ? product.getCategory().getCategoryName() : null)
+                        .unit(product.getUnit())
+                        .barcode(product.getBarcode())
+                        .sellingPrice(product.getSellingPrice())
+                        .quantityInStock(product.getQuantityInStock())
+                        .lastUpdated(product.getLastUpdated())
+                        .isActive(product.getIsActive())
+                        .brandName(product.getBrand() != null ? product.getBrand().getBrandName() : null)
+                        .costOfCapital(product.getCostOfCapital())
+                        .discount(product.getDiscount())
+                        .image(product.getImage())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<ProductResponse> getProductByBarcode(String barcode) {
 
         Optional<Product> productOpt = productRepository.findByBarcode(barcode);

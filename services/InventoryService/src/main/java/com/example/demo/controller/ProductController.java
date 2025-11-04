@@ -34,6 +34,10 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/v2/all")
+    public List<ProductResponse> getAllCategoryBrand(){
+        return productService.getAllWithCategoryAndBrand();
+    }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/hello")

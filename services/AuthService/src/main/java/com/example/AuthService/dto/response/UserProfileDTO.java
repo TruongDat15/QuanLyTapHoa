@@ -18,7 +18,7 @@ public class UserProfileDTO {
     String role;
     Integer gender;
     String address;
-
+    Long userID;
 
     LocalDate dateOfBirth;
 }
