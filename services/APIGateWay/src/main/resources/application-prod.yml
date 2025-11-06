@@ -1,0 +1,48 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: auth-service
+              uri: http://authservice:8080
+              predicates:
+                - Path=/api/auth/**
+
+            - id: inventory-service
+              uri: http://inventoryservice:8080
+              predicates:
+                - Path=/api/inventory/**
+
+            - id: customer-service
+              uri: http://customerservice:8080
+              predicates:
+                - Path=/api/customer/**
+
+            - id: order-service
+              uri: http://orderservice:8080
+              predicates:
+                - Path=/api/order/**
+
+            - id: payment-service
+              uri: http://paymentservice:8080
+              predicates:
+                - Path=/api/payment/**
+
+            - id: notification-service
+              uri: http://notificationservice:8080
+              predicates:
+                - Path=/api/notification/**
+
+            - id: reporting-service
+              uri: http://reportingservice:8080
+              predicates:
+                - Path=/api/reporting/**
+
+jwt:
+  secret: ${JWT_SECRET:VExzN0s2V3p5R2Q1eXJzM29IVG95MFRhUG5nMUFzV1pCenFhWkYxclR0T29rUjJvT3pYckQ0UHVtN09uSjlSNEQxQ0FpY1BicHlCbmJsdmE1c293M01LQXlKMGZ5MXU=}
+
+server:
+  port: ${SERVER_PORT:8080}
+  address: 0.0.0.0
+

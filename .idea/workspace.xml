@@ -5,17 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="88e4647d-c753-48b5-8189-49f0576e8945" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/APIGateWay/src/main/resources/application-prod.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/AuthService/src/main/resources/application-prod.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/CustomerService/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/CustomerService/src/main/resources/application-prod.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/InventoryService/src/main/resources/application-prod.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/OrderService/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/Receipt.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/OrderService/src/main/resources/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/dto/request/CreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/dto/request/CreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/dto/response/UserProfileDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/dto/response/UserProfileDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/src/main/java/com/example/AuthService/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/entity/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/repository/ProductRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ProductImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/src/main/java/com/example/demo/service/impl/ProductImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/OrderService/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/services/OrderService/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/APIGateWay/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/services/APIGateWay/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/AuthService/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/AuthService/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/services/AuthService/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/InventoryService/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/services/InventoryService/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/OrderItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/OrderItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/OrderStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/services/OrderService/src/main/java/com/example/OrderService/entity/OrderStatus.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,10 +82,10 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;co.tula.mermaidchart.settings.MermaidSettingsConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.CustomerServiceApplication">
+  <component name="RunManager" selected="Application.DemoApplication">
     <configuration name="ApiGateWayApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.APIGateWay.ApiGateWayApplication" />
       <module name="APIGateWay" />
@@ -142,10 +151,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.CustomerServiceApplication" />
+        <item itemvalue="Application.DemoApplication" />
         <item itemvalue="Application.AuthServiceApplication" />
         <item itemvalue="Application.ApiGateWayApplication" />
-        <item itemvalue="Application.DemoApplication" />
+        <item itemvalue="Application.CustomerServiceApplication" />
         <item itemvalue="Batch.run-apigateway" />
       </list>
     </recent_temporary>
@@ -158,6 +167,15 @@
       <option name="presentableId" value="Default" />
       <updated>1761732313980</updated>
     </task>
+    <task id="LOCAL-00001" summary="Tối ưu APi gọi danh sách sản phẩm, CRUD user, bắt đầu triển khai Orderservice">
+      <option name="closed" value="true" />
+      <created>1762250161944</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762250161944</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -182,6 +200,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Tối ưu APi gọi danh sách sản phẩm, CRUD user, bắt đầu triển khai Orderservice" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tối ưu APi gọi danh sách sản phẩm, CRUD user, bắt đầu triển khai Orderservice" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

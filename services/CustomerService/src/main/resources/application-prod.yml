@@ -1,0 +1,11 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb+srv://truongtruongdatdat15_db_user:orNafh1CqjE6rSyA@cluster0.gxgafjw.mongodb.net/pos_crm}
+
+  application:
+    name: customer-service
+

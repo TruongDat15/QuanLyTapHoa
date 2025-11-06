@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for InventoryService
+# Multi-stage Dockerfile for OrderService
 # Build with project's Maven Wrapper, run with Eclipse Temurin 21 JRE
 
 FROM maven:3.9.4-eclipse-temurin-21 AS build
@@ -9,7 +9,6 @@ COPY mvnw .
 COPY pom.xml .
 COPY src ./src
 
-# ensure wrapper is executable and build (skip tests for faster builds)
 RUN chmod +x ./mvnw
 RUN ./mvnw -DskipTests package
 
@@ -19,3 +18,4 @@ COPY --from=build /workspace/target/*.jar app.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "/app/app.jar"]
+

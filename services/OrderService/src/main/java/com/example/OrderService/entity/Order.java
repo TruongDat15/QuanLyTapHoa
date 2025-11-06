@@ -19,11 +19,14 @@ public class Order {
 
     private String customerId;
 
+    private String cashierId;
+
     private PaymentMethod paymentMethod;
 
     private String orderDate;
     private double totalAmount;
     private OrderStatus status;
+
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
