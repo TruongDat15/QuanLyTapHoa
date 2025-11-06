@@ -40,7 +40,7 @@ spring:
                 - Path=/api/reporting/**
 
 jwt:
-  secret: ${JWT_SECRET:VExzN0s2V3p5R2Q1eXJzM29IVG95MFRhUG5nMUFzV1pCenFhWkYxclR0T29rUjJvT3pYckQ0UHVtN09uSjlSNEQxQ0FpY1BicHlCbmJsdmE1c293M01LQXlKMGZ5MXU=}
+  secret: ${JWT_SECRET}
 
 server:
   port: ${SERVER_PORT:8080}

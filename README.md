@@ -1,56 +1,5 @@
-# Quick run (Windows) — Chạy nhanh (Windows)
 
-Mình đã thêm sẵn 3 script để chạy từng service trên Windows (CMD). Bạn có thể chạy trực tiếp trên máy local bằng cách mở `cmd.exe` hoặc double-click file `.cmd` trong File Explorer.
 
-- [Run AuthService](./run-auth.cmd) — `run-auth.cmd`
-- [Run InventoryService](./run-inventory.cmd) — `run-inventory.cmd`
-- [Run API Gateway](./run-apigateway.cmd) — `run-apigateway.cmd`
-
-Lưu ý quan trọng:
-- Click vào liên kết trong GitHub hoặc IDE sẽ mở file để xem, nhưng không tự động chạy nó. Để chạy, mở `cmd.exe` (hoặc PowerShell) và chạy script cục bộ.
-- Các script dùng Maven Wrapper (`mvnw.cmd`) có sẵn trong từng module; Docker không cần để chạy theo cách này.
-
-Cách chạy (CMD):
-
-```cmd
-cd /d D:\QuanLiTapHoa
-run-auth.cmd
-```
-
-Hoặc chạy service khác:
-
-```cmd
-cd /d D:\QuanLiTapHoa
-run-inventory.cmd
-
-cd /d D:\QuanLiTapHoa
-run-apigateway.cmd
-```
-
-Cách chạy (PowerShell):
-
-```powershell
-Set-Location -Path 'D:\QuanLiTapHoa'
-.\run-auth.cmd
-```
-
-Double-click: mở File Explorer, vào thư mục dự án, double-click `run-auth.cmd` → sẽ mở cửa sổ cmd và chạy service.
-
-Nếu bạn muốn chạy nhiều service cùng lúc, mở nhiều cửa sổ cmd và chạy từng script trong mỗi cửa sổ.
-
----
-
-# Ví dụ: chạy AuthService
-cd `D:\QuanLiTapHoa\services\AuthService`
-.\mvnw.cmd spring-boot:run
-
-# Ví dụ: chạy InventoryService
-cd `D:\QuanLiTapHoa\services\InventoryService`
-.\mvnw.cmd spring-boot:run
-
-# Ví dụ: chạy API Gateway
-cd `D:\QuanLiTapHoa\services\APIGateWay`
-.\mvnw.cmd spring-boot:run
 # POS Microservices System
 
 Hệ thống POS này được thiết kế theo kiến trúc **Microservices**, bao gồm các service chính và service mở rộng. Hệ thống tập trung vào quản lý bán hàng, kho hàng, người dùng và báo cáo.
@@ -109,13 +58,32 @@ Hệ thống POS này được thiết kế theo kiến trúc **Microservices**,
 
 ---
 
-## 5. Hướng dẫn cài đặt nhanh
+## 5. Hướng dẫn cài đặt nhanh với docker.
 
+
+
+Chạy tại thư mục gốc dự án `D:\QuanLiTapHoa`:
+
+```powershell
+docker compose up -d --build
+```
+
+Các service sẽ chạy:
+- MySQL: port 3307 (host) → 3306 (container), DB: `appdb` (volume: `mysql-data`).
+- AuthService: http://localhost:8081 (trong container: 8080)
+- InventoryService: http://localhost:8082 (trong container: 8080)
+- API Gateway: http://localhost:8080
+- Adminer (duyệt DB): http://localhost:8086
+
+Thông tin đăng nhập MySQL cho Adminer:
+- Server: `mysql-db` (hoặc 127.0.0.1:3307)
+- User: `root`
+- Pass: giá trị `MYSQL_ROOT_PASSWORD` trong `.env` (mặc định 123456)
+- Database: `appdb`
+
+## 6. Hướng dẫn cài đặt.
 1. Clone repository về máy:
-  ## Quick Run (Windows)
-  
-  [![Run AuthService](https://img.shields.io/badge/Run-AuthService-blue?logo=windows)](./services/AuthService) [![Run InventoryService](https://img.shields.io/badge/Run-InventoryService-blue?logo=windows)](./services/InventoryService) [![Run API Gateway](https://img.shields.io/badge/Run-APIGateWay-blue?logo=windows)](./services/APIGateWay)
-  
+
   Click a badge to open the service folder on GitHub. To run locally in CMD / PowerShell, use the commands below:
   
       cd `D:\QuanLiTapHoa\services\AuthService`
@@ -125,7 +93,8 @@ Hệ thống POS này được thiết kế theo kiến trúc **Microservices**,
       .\mvnw.cmd spring-boot:run
   
       cd `D:\QuanLiTapHoa\services\APIGateWay`
-      .\mvnw.cmd spring-boot:run ```bash
+      .\mvnw.cmd spring-boot:run 
+```bash
    git clone <repo-url>
 ````
 
@@ -137,8 +106,3 @@ Hệ thống POS này được thiết kế theo kiến trúc **Microservices**,
     4. Inventory Service
     5. Order Service
     6. API Gateway
-3. Kiểm tra endpoint:
-
-    * `http://localhost:8080/auth/...` → AuthService
-    * `http://localhost:8080/inventory/...` → InventoryService
-````

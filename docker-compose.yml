@@ -39,6 +39,8 @@ services:
       context: ./services/InventoryService
       dockerfile: Dockerfile
     container_name: inventoryservice
+
+#    xoá ports
     ports:
       - "8082:8080"
     depends_on:
