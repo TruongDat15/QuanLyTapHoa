@@ -1,4 +1,5 @@
-package com.example.demo.config;
+package com.example.CustomerService.config;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +19,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest()
-                 //     .permitAll())
-                      .authenticated())   // tạm thời bỏ xác thực để dễ test
+                        //     .permitAll())
+                        .authenticated())   // tạm thời bỏ xác thực để dễ test
                 .addFilterBefore(new HeaderAuthFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
