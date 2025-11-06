@@ -46,18 +46,27 @@ public class ProductController {
         return "Hello Admin";
     }
 
+    // test quyền chỉ có nhân viên mới được truy cập
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping("/staff-only")
+    public String staffOnlyEndpoint() {
+        return "This is staff member.";
+    }
+
+    @GetMapping("/username")
+    public ResponseEntity<String> currentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok("Current user: " + username);
+    }
+
+
+
+    // kiểm tra quyền hiện tại
     @GetMapping("/whoami")
     public String whoAmI() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("Authorities: " + auth.getAuthorities());
         return "Authorities: " + auth.getAuthorities();
-    }
-
-
-    @GetMapping("/test")
-    public ResponseEntity<?> testHeaders(@RequestHeader Map<String, String> headers) {
-        System.out.println("Received headers: " + headers);
-        return ResponseEntity.ok(headers);
     }
 
     // lấy sản phẩm theo barcode

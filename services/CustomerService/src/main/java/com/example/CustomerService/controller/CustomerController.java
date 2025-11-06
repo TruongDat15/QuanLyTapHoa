@@ -6,6 +6,7 @@ import com.example.CustomerService.entity.Customer;
 import com.example.CustomerService.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -45,4 +46,11 @@ public class CustomerController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<String> currentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok("Current user: " + username);
+    }
+
 }
