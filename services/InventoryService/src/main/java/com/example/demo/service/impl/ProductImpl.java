@@ -2,10 +2,13 @@ package com.example.demo.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+
 import com.example.demo.dto.request.ProductRequest;
 import com.example.demo.dto.response.ProductResponse;
+import com.example.demo.entity.Brand;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
+import com.example.demo.repository.BrandRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductService;
@@ -30,6 +33,7 @@ public class ProductImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final BrandRepository brandRepository;
     private final Cloudinary cloudinary;
 
     @Override
@@ -109,6 +113,12 @@ public class ProductImpl implements ProductService {
             category = categoryRepository.findById(productRequest.getCategoryId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid category ID"));
         }
+        Brand brand = null;
+        if (productRequest.getBrandId() != null) {
+            brand = brandRepository.findById(productRequest.getBrandId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid brand ID"));
+
+        }
 
         String barcode = productRequest.getBarcode();
         if (barcode != null && !barcode.equals(product.getBarcode()) && productRepository.findByBarcode(barcode).isPresent()){
@@ -121,7 +131,12 @@ public class ProductImpl implements ProductService {
         product.setBarcode(productRequest.getBarcode());
         product.setSellingPrice(productRequest.getSellingPrice());
         product.setQuantityInStock(productRequest.getQuantityInStock());
+        product.setCostOfCapital(productRequest.getCostOfCapital());
+        product.setDiscount(productRequest.getDiscount());
+        product.setBrand(brand);
+
         product.setLastUpdated(LocalDateTime.now());
+        product.setIsActive(productRequest.getIsActive());
 
         Product updatedProduct = productRepository.save(product);
 
@@ -129,6 +144,7 @@ public class ProductImpl implements ProductService {
                 .productName(updatedProduct.getProductName())
                 .categoryName(updatedProduct.getCategory() != null ? updatedProduct.getCategory().getCategoryName() : null)
                 .unit(updatedProduct.getUnit())
+                .brandName(updatedProduct.getBrand() != null ? updatedProduct.getBrand().getBrandName() : null)
                 .barcode(updatedProduct.getBarcode())
                 .sellingPrice(updatedProduct.getSellingPrice())
                 .quantityInStock(updatedProduct.getQuantityInStock())
@@ -169,19 +185,29 @@ public class ProductImpl implements ProductService {
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid category ID"));
         }
 
+        // Check brand
+        Brand brand = null;
+        if (productRequest.getBrandId() != null) {
+            brand = brandRepository.findById(productRequest.getBrandId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid brand ID"));
+        }
+
         String barcode = productRequest.getBarcode();
         if (barcode != null && productRepository.findByBarcode(barcode).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Barcode already exists");
         }
 
-
         Product product = Product.builder()
                 .productName(productRequest.getProductName())
                 .category(category)
+                .brand(brand)
                 .unit(productRequest.getUnit())
                 .barcode(productRequest.getBarcode())
                 .sellingPrice(productRequest.getSellingPrice())
                 .quantityInStock(productRequest.getQuantityInStock())
+                .costOfCapital(productRequest.getCostOfCapital())
+                .discount(productRequest.getDiscount())
+                .isActive(true)
                 .lastUpdated(LocalDateTime.now())
                 .build();
 
@@ -201,10 +227,14 @@ public class ProductImpl implements ProductService {
                 .productName(savedProduct.getProductName())
                 .categoryName(savedProduct.getCategory() != null ? savedProduct.getCategory().getCategoryName() : null)
                 .unit(savedProduct.getUnit())
+                .brandName(savedProduct.getBrand() != null ? savedProduct.getBrand().getBrandName() : null)
                 .barcode(savedProduct.getBarcode())
                 .sellingPrice(savedProduct.getSellingPrice())
                 .quantityInStock(savedProduct.getQuantityInStock())
                 .lastUpdated(savedProduct.getLastUpdated())
+                .isActive(savedProduct.getIsActive())
+                .costOfCapital(savedProduct.getCostOfCapital())
+                .discount(savedProduct.getDiscount())
                 .image(savedProduct.getImage())
                 .build();
     }

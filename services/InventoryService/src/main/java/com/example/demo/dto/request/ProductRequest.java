@@ -21,7 +21,8 @@ public class ProductRequest {
     private Integer quantityInStock;
     private Boolean isActive;
     private Integer categoryId;
-
+    private Integer brandId;
+    private Double discount;
 
     private MultipartFile file;
 }

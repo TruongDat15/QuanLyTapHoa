@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  # ==========================
+  # 🐇 RabbitMQ
+  # ==========================
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"    # Cổng để microservices kết nối
+      - "15672:15672"  # Cổng truy cập giao diện web
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - app-network
+
+  # ==========================
+  # 🔴 Redis
+  # ==========================
+  redis:
+    image: redis:7.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

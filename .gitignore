@@ -1,4 +1,6 @@
 .env
 .idea/
 .vscode/
+
+**/application.yml
 qodana.yaml
