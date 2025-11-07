@@ -128,7 +128,7 @@ public class ImportProductImpl implements ImportProductService {
             return ImportProductResponse.builder()
                     .importProductId(importProduct.getImportProductId())
                     .supplierName(importProduct.getSupplier().getSupplierName())
-                    .employeeName("tam thoi")   // them tạm
+                    .employeeName(importProduct.getCreatedBy())   // them tạm
                     .createdAt(importProduct.getCreatedAt())
                     .updatedAt(importProduct.getUpdatedAt())
                     .status(importProduct.getStatus().name())
