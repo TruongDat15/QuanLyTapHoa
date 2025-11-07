@@ -15,7 +15,10 @@ import java.util.List;
 public interface ImportProductService {
   //  ImportResultResponse processExcelRow(MultipartFile file, Integer supplierId, Boolean finalSave) throws IOException;
 
-    ImportProductResponse createImportProduct(ImportProductRequest request);
+    ImportProductResponse createImportProduct(ImportProductRequest request, String username);
+
+
+
     ImportProductResponse updateImportProduct(Integer importProductId, ImportProductRequest request, boolean complete);
 
     List<ImportProductResponse> getAll(Integer importProductId);

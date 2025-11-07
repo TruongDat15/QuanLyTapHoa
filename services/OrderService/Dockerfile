@@ -12,6 +12,7 @@ COPY src ./src
 RUN chmod +x ./mvnw
 RUN ./mvnw -DskipTests package
 
+
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /workspace/target/*.jar app.jar

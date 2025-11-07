@@ -14,6 +14,7 @@ import com.example.demo.repository.*;
 import com.example.demo.service.ImportProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,10 +34,9 @@ public class ImportProductImpl implements ImportProductService {
 
 
 
-
-    @Override
     @Transactional
-    public ImportProductResponse createImportProduct(ImportProductRequest request) {
+    @Override
+    public ImportProductResponse createImportProduct(ImportProductRequest request, String username) {
         // lấy nhà cung cấp
         Supplier supplier = supplierRepository.findById(request.getSupplierId())
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy nhà cung cấp với ID: " + request.getSupplierId()));
@@ -46,7 +46,7 @@ public class ImportProductImpl implements ImportProductService {
         // taọ phiếu nhập
         ImportProduct importProduct = ImportProduct.builder()
                 .supplier(supplier)
-                .createdBy("Nhan vien")             // them tạm
+                .createdBy(username)             // them tạm
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .status(request.getComplete() ? ImportStatus.COMPLETED : ImportStatus.DRAFT)
@@ -128,7 +128,7 @@ public class ImportProductImpl implements ImportProductService {
             return ImportProductResponse.builder()
                     .importProductId(importProduct.getImportProductId())
                     .supplierName(importProduct.getSupplier().getSupplierName())
-                    .employeeName("Nhan vien")   // them tạm
+                    .employeeName("tam thoi")   // them tạm
                     .createdAt(importProduct.getCreatedAt())
                     .updatedAt(importProduct.getUpdatedAt())
                     .status(importProduct.getStatus().name())

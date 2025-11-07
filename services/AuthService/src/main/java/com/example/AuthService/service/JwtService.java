@@ -21,7 +21,7 @@ public class JwtService {
 
     public String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-
+    
         Date issueTime = new Date();
         Date expirationTime = new Date(issueTime.getTime() + 3600000); // 1 hour validity
 

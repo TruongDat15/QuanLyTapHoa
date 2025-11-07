@@ -12,6 +12,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +49,10 @@ public class ImportProductController {
 
     @PostMapping
     public ResponseEntity<ImportProductResponse> create(@RequestBody ImportProductRequest request) {
-        return ResponseEntity.ok(importProductService.createImportProduct(request));
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return ResponseEntity.ok(importProductService.createImportProduct(request, username));
     }
 
     @GetMapping

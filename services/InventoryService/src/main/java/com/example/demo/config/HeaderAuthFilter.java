@@ -22,6 +22,7 @@ public class HeaderAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String rolesHeader = request.getHeader("X-Auth-Roles");
+        String userHeader = request.getHeader("X-Auth-User");
         if (rolesHeader != null) {
             List<SimpleGrantedAuthority> authorities = Arrays.stream(rolesHeader.split(","))
                     .map(String::trim)
@@ -29,7 +30,7 @@ public class HeaderAuthFilter extends OncePerRequestFilter {
                     .toList();
 
             UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken("gateway-user", null, authorities);
+                    new UsernamePasswordAuthenticationToken(userHeader, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
 
