@@ -1,10 +1,13 @@
-package com.example.OrderService.dto;
+package com.example.common.dto.orderdtos;
 
 
-import com.example.OrderService.entity.Order;
-import com.example.OrderService.entity.OrderStatus;
-import com.example.OrderService.entity.PaymentMethod;
-import lombok.*;
+
+import com.example.common.enums.OrderStatus;
+import com.example.common.enums.PaymentMethod;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;

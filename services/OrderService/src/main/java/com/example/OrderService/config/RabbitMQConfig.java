@@ -47,10 +47,10 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(inventoryQueue).to(exchange).with(ORDER_CREATED_KEY);
     }
 
-    @Bean
-    public Binding orderPaymentBinding(Queue paymentQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(paymentQueue).to(exchange).with(ORDER_PAYMENT_KEY);
-    }
+//    @Bean
+//    public Binding orderPaymentBinding(Queue paymentQueue, TopicExchange exchange) {
+//        return BindingBuilder.bind(paymentQueue).to(exchange).with(ORDER_PAYMENT_KEY);
+//    }
 
     @Bean
     public Binding invoiceBinding(Queue invoiceQueue, TopicExchange exchange) {

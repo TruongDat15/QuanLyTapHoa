@@ -1,51 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>common</artifactId>
+    <artifactId>common-dto</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>Common Library</name>
-    <description>Thư viện chứa DTO, Enum, Exception, Utils dùng chung giữa các service</description>
+    <name>Common DTO Library</name>
 
     <properties>
         <java.version>21</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
     <dependencies>
-        <!-- Lombok để tạo getter/setter, builder,... -->
+        <!-- Lombok để giảm boilerplate cho DTO -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Nếu dùng các annotation như @NotNull, @Email, @Size,... -->
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>3.0.2</version>
-        </dependency>
+        <!-- Jackson để chuyển đổi JSON (nếu cần) -->
 
-        <!-- Nếu có dùng Jackson (@JsonProperty, @JsonIgnore,...) trong DTO -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.17.0</version>
-        </dependency>
+
+        <!-- Validation API nếu DTO có @NotNull, @Size, ... -->
+
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Chỉ cần plugin compile, không dùng spring-boot -->
+            <!-- Compiler plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -57,7 +46,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.32</version>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

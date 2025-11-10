@@ -1,7 +1,6 @@
-package com.example.OrderService.dto;
+package com.example.common.dto.orderdtos;
 
 
-import com.example.OrderService.entity.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

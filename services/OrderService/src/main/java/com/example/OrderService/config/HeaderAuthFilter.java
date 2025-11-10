@@ -1,4 +1,4 @@
-package com.example.CustomerService.config;
+package com.example.OrderService.config;
 
 
 import jakarta.servlet.FilterChain;
