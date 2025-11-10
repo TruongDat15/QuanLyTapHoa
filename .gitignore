@@ -3,4 +3,6 @@
 .vscode/
 
 **/application.yml
+**/Dockerfile.dev
+
 qodana.yaml

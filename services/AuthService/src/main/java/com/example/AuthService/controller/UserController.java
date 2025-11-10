@@ -46,7 +46,7 @@ public class UserController {
     }
     @GetMapping("/hello")
     public String hello() {
-        return "Hello, Profile";
+        return "Hello, DockerTestcó";
     }
 
     // xoá người dùng
