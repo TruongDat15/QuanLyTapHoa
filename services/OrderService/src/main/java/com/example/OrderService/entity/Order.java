@@ -3,8 +3,10 @@ package com.example.OrderService.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
@@ -14,8 +16,8 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer orderId;
+    @GeneratedValue
+    private UUID orderId;
 
     private String customerId;
 
@@ -23,7 +25,6 @@ public class Order {
 
     private PaymentMethod paymentMethod;
 
-    private String orderDate;
     private double totalAmount;
     private OrderStatus status;
 
