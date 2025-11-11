@@ -2,9 +2,7 @@ package com.example.OrderService.event.publisher;
 
 
 
-import com.example.OrderService.dto.OrderDTO;
-import com.example.OrderService.entity.Order;
-import com.example.OrderService.event.OrderEventDTO;
+import com.example.common.dto.orderdtos.OrderDTO;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -3,18 +3,25 @@ package com.example.demo.service.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
+import com.example.common.dto.orderdtos.OrderDTO;
+import com.example.common.dto.orderdtos.OrderItemDTO;
+import com.example.common.enums.reservedStatus;
 import com.example.demo.dto.request.ProductRequest;
 import com.example.demo.dto.response.ProductResponse;
 import com.example.demo.entity.Brand;
 import com.example.demo.entity.Category;
+import com.example.demo.entity.InventoryReservation;
 import com.example.demo.entity.Product;
 import com.example.demo.repository.BrandRepository;
 import com.example.demo.repository.CategoryRepository;
+import com.example.demo.repository.InventoryReservationRepository;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,6 +34,7 @@ import java.util.stream.Collectors;
 
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductImpl implements ProductService {
@@ -34,6 +42,7 @@ public class ProductImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
+    private final InventoryReservationRepository reservationRepository;
     private final Cloudinary cloudinary;
 
     @Override
@@ -261,6 +270,44 @@ public class ProductImpl implements ProductService {
         productRepository.save(product);
 
         return imageUrl;
+    }
+
+    @Override
+    @Transactional
+    public void reserveStock(OrderDTO orderDTO) {
+        log.info("Bat dau tam giu ton kho cho don hang: {}", orderDTO.getOrderId());
+
+        for (OrderItemDTO itemDTO : orderDTO.getOrderItemDTOs()) {
+            Product product = productRepository.findByBarcode(itemDTO.getBarcode())
+                    .orElseThrow(() -> new RuntimeException("Product with barcode " + itemDTO.getBarcode() + " not found"));
+
+            int availableStock = product.getQuantityInStock() - product.getReservedQuantity();
+            if (availableStock < itemDTO.getQuantity()) {
+                String error = String.format("Tồn kho khả dụng không đủ cho SP %s. Yêu cầu: %d, Khả dụng: %d",
+                        itemDTO.getProductName(), itemDTO.getQuantity(), availableStock);
+                System.err.println("LỖI GIỮ TẠM KHO: " + error);
+                // Ném lỗi để kích hoạt ROLLBACK toàn bộ giao dịch
+                throw new RuntimeException(error);
+            }
+            // Cập nhật reservedQuantity
+            product.setReservedQuantity(product.getReservedQuantity() + itemDTO.getQuantity());
+            productRepository.save(product);
+
+            // lưu bản ghi chi tiết đơn giữ hàng inventory_reservations
+            InventoryReservation inventoryReservation = InventoryReservation.builder()
+                    .orderId(orderDTO.getOrderId())
+                    .quantity(itemDTO.getQuantity())
+                    .createdAt(LocalDateTime.now())
+                    .barcode(itemDTO.getBarcode())
+                    .status(reservedStatus.PENDING)
+                    .productName(itemDTO.getProductName())
+                    .build();
+
+            reservationRepository.save(inventoryReservation);
+
+            log.info("Da tam giu {} don vi san pham voi ma vach: {}", itemDTO.getQuantity(), itemDTO.getBarcode());
+        }
+
     }
 
 

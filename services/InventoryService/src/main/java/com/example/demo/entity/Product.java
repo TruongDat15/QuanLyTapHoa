@@ -49,6 +49,9 @@ public class Product implements Serializable {
     @Column(name = "quantity_in_stock", nullable = false)
     private Integer quantityInStock = 0;
 
+    @Column(name = "reserved_quantity")
+    private Integer reservedQuantity = 0; // sản phẩm đặt chỗ
+
     @Column(name = "is_active")
     private Boolean isActive;
 

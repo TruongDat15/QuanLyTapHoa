@@ -1,5 +1,7 @@
 package com.example.OrderService.entity;
 
+import com.example.common.enums.OrderStatus;
+import com.example.common.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 

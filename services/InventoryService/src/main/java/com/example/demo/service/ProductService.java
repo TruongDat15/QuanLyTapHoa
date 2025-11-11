@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.demo.dto.request.ProductRequest;
 import com.example.demo.dto.response.ProductResponse;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,4 +19,6 @@ public interface ProductService {
     ProductResponse createProduct(ProductRequest productRequest, MultipartFile file) throws IOException;
 
     String uploadImage (MultipartFile file, Integer productId) throws IOException;
+
+    void reserveStock(OrderDTO orderDTO);
 }

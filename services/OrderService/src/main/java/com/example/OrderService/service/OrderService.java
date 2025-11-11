@@ -1,8 +1,7 @@
 package com.example.OrderService.service;
 
-import com.example.OrderService.dto.OrderDTO;
-import com.example.OrderService.entity.OrderStatus;
-import org.springframework.transaction.annotation.Transactional;
+import com.example.common.dto.orderdtos.OrderDTO;
+import com.example.common.enums.OrderStatus;
 
 import java.util.List;
 import java.util.UUID;

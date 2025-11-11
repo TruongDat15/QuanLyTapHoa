@@ -1,6 +1,12 @@
 package com.example.demo.config;
 
+import com.example.common.constrants.RabbitConstants;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -12,9 +18,18 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 @EnableRabbit
 public class RabbitMQConfig {
 
-    // Exchange và routing key phải trùng với OrderService
-    public static final String EXCHANGE = "order.exchange";
-    public static final String ORDER_CREATED_KEY = "order.created";
+    @Bean
+    public Queue inventoryQueue() { return new Queue(RabbitConstants.INVENTORY_QUEUE, false); }
+
+    @Bean
+    public TopicExchange exchange() { return new TopicExchange(RabbitConstants.ORDER_EXCHANGE); }
+
+    @Bean
+    public Binding orderCreatedBinding(Queue inventoryQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(inventoryQueue).to(exchange).with(RabbitConstants.ORDER_KEY);
+    }
+
+
 
     // JSON converter
     @Bean
@@ -29,4 +44,12 @@ public class RabbitMQConfig {
         template.setMessageConverter(jsonMessageConverter());
         return template;
     }
+//    @Bean
+//    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
+//            ConnectionFactory connectionFactory) {
+//        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+//        factory.setConnectionFactory(connectionFactory);
+//        factory.setMessageConverter(jsonMessageConverter());
+//        return factory;
+//    }
 }

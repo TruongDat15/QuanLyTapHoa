@@ -1,6 +1,7 @@
 package com.example.OrderService.config;
 
 
+import com.example.common.constrants.RabbitConstants;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -29,33 +30,39 @@ public class RabbitMQConfig {
     public static final String PAYMENT_FAILED_KEY = "payment.failed";
     public static final String INVOICE_CREATED_KEY = "invoice.created";
 
-    @Bean
-    public Queue inventoryQueue() { return new Queue(INVENTORY_QUEUE, false); }
-
-    @Bean
-    public Queue paymentQueue() { return new Queue(PAYMENT_QUEUE, false); }
-
-    @Bean
-    public Queue invoiceQueue() { return new Queue(INVOICE_QUEUE, false); }
+//
+//    @Bean
+//    public Queue paymentQueue() { return new Queue(PAYMENT_QUEUE, false); }
+//
+//    @Bean
+//    public Queue invoiceQueue() { return new Queue(INVOICE_QUEUE, false); }
 
     @Bean
     public TopicExchange exchange() { return new TopicExchange(EXCHANGE); }
 
-    // Bindings
     @Bean
-    public Binding orderCreatedBinding(Queue inventoryQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(inventoryQueue).to(exchange).with(ORDER_CREATED_KEY);
-    }
+    public Queue inventoryQueue() { return new Queue(RabbitConstants.INVENTORY_QUEUE, false); }
+    @Bean
+    public Binding inventoryResponseBinding(Queue inventoryQueue, TopicExchange orderExchange) {
 
+
+        return BindingBuilder.bind(inventoryQueue)
+                .to(orderExchange)
+                .with(RabbitConstants.INVENTORY_KEY);
+    }
+    //    @Bean
+//    public Binding orderPaymentBinding(Queue paymentQueue, TopicExchange exchange) {
+//        return BindingBuilder.bind(paymentQueue).to(exchange).with(ORDER_PAYMENT_KEY);
+//    }
+    // Bindings
 //    @Bean
 //    public Binding orderPaymentBinding(Queue paymentQueue, TopicExchange exchange) {
 //        return BindingBuilder.bind(paymentQueue).to(exchange).with(ORDER_PAYMENT_KEY);
 //    }
-
-    @Bean
-    public Binding invoiceBinding(Queue invoiceQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(invoiceQueue).to(exchange).with(PAYMENT_COMPLETED_KEY);
-    }
+//    @Bean
+//    public Binding invoiceBinding(Queue invoiceQueue, TopicExchange exchange) {
+//        return BindingBuilder.bind(invoiceQueue).to(exchange).with(PAYMENT_COMPLETED_KEY);
+//    }
 
     // JSON converter
     @Bean
