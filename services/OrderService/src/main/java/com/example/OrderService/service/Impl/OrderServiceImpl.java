@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -113,6 +114,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDTO> findAllOrders() {
         return List.of();
+    }
+
+    @Override
+    public Optional<OrderDTO> updateStatus(UUID orderId, OrderStatus orderStatus) {
+        return Optional.empty();
     }
 
 

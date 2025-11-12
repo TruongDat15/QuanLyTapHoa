@@ -1,7 +1,7 @@
 package com.example.demo.event.publisher;
 
 
-import com.example.common.constrants.RabbitConstants;
+import static com.example.common.constrants.RabbitConstants.*;
 import com.example.common.dto.orderdtos.OrderDTO;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,8 @@ public class InventoryPublisher {
 
     public void publishInventoryReservedEvent(OrderDTO orderDTO){
         rabbitTemplate.convertAndSend(
-                RabbitConstants.ORDER_EXCHANGE,
-                RabbitConstants.INVENTORY_RESERVED_KEY,
+                ORDER_EXCHANGE,
+                INVENTORY_RESERVED_KEY,
                 orderDTO
         );
         System.out.println(" Gui sự kiện giữ tạm kho thành công");
@@ -25,8 +25,8 @@ public class InventoryPublisher {
     public void publishInventoryFailedEvent(OrderDTO orderDTO){
 
         rabbitTemplate.convertAndSend(
-                RabbitConstants.ORDER_EXCHANGE,
-                RabbitConstants.INVENTORY_REJECTED_KEY,
+                ORDER_EXCHANGE,
+                INVENTORY_REJECTED_KEY,
                 orderDTO
         );
         System.out.println("Khong du ton kho, thay doi hoac dois");

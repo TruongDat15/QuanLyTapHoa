@@ -4,6 +4,7 @@ import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.common.enums.OrderStatus;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface OrderService {
@@ -18,4 +19,5 @@ public interface OrderService {
     List<OrderDTO> findAllOrders();
 
 
+    Optional<OrderDTO> updateStatus(UUID orderId, OrderStatus orderStatus);
 }

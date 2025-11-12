@@ -1,6 +1,5 @@
 package com.example.demo.event.listener;
 
-import com.example.common.constrants.RabbitConstants;
 import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.common.dto.orderdtos.OrderItemDTO;
 import com.example.demo.event.publisher.InventoryPublisher;
@@ -10,7 +9,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.messaging.handler.annotation.Header;
-
+import static com.example.common.constrants.RabbitConstants.*;
 
 @Component
 @RequiredArgsConstructor
@@ -19,11 +18,11 @@ public class PendingListener {
     private final ProductService productService;
     private final InventoryPublisher publisher;
 
-    @RabbitListener(queues = RabbitConstants.INVENTORY_QUEUE)
+    @RabbitListener(queues = INVENTORY_QUEUE)
     public void handleOrderCreated(OrderDTO orderDTO, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
         System.out.println("🔔 INVENTORY SERVICE: Received OrderCreatedEvent with message: "+ orderDTO);
 
-        if(RabbitConstants.ORDER_CREATED_KEY.equals(routingKey)){
+        if(ORDER_CREATED_KEY.equals(routingKey)){
             try{
                // kiểm tra và giữ tồn kho
                 productService.reserveStock(orderDTO);
