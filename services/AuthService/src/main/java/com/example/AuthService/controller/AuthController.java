@@ -31,8 +31,8 @@ public class AuthController {
     @GetMapping("/hello")
     public String hello() {
 
-        log.info("truy cap thanh cong");
-        return "Hello, Login!";
+        log.info("truy cap thanh cong 2");
+        return "Hello, Login!, docker 2";
     }
 
     // Them endpoint reset mat khau, gui email xac nhan, etc.

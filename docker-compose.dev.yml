@@ -3,26 +3,42 @@ version: '3.8'
 services:
   mysql-db:
     image: mysql:8.0
-    container_name: mysql-db-dev
+    container_name: mysql-db
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
       - "3307:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql-data-dev:/var/lib/mysql
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"    # cổng để microservices kết nối
+      - "15672:15672"  # cổng giao diện web
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-admin}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-admin}
     networks:
       - app-network
 
   authservice:
     build:
       context: ./services/AuthService
-      dockerfile: Dockerfile.dev  # bạn có thể tạo Dockerfile.dev cho dev
-    container_name: authservice-dev
+      dockerfile: Dockerfile.dev
+    container_name: authservice
     ports:
       - "8081:8080"
     depends_on:
       - mysql-db
+    volumes:
+      - ./services/AuthService/src:/app/src
+      - ./services/AuthService/pom.xml:/app/pom.xml
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
@@ -30,11 +46,6 @@ services:
       SERVER_PORT: 8080
       JWT_SECRET: ${JWT_SECRET}
       TZ: ${TZ}
-    volumes:
-      - ./services/AuthService/src:/workspace/src
-      - ./services/AuthService/pom.xml:/workspace/pom.xml
-      - ./services/AuthService/.mvn:/workspace/.mvn
-      - ./services/AuthService/mvnw:/workspace/mvnw
     networks:
       - app-network
 
@@ -42,26 +53,30 @@ services:
     build:
       context: ./services/InventoryService
       dockerfile: Dockerfile.dev
-    container_name: inventoryservice-dev
+    container_name: inventoryservice
     ports:
       - "8082:8080"
     depends_on:
       - mysql-db
+    volumes:
+      - ./services/InventoryService/src:/app/src
+      - ./services/InventoryService/pom.xml:/app/pom.xml
+      - ~/.m2/repository:/root/.m2/repository
+
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SERVER_PORT: 8080
       JWT_SECRET: ${JWT_SECRET}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_PORT: ${RABBITMQ_PORT}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
       CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
       CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
       TZ: ${TZ}
-    volumes:
-      - ./services/InventoryService/src:/workspace/src
-      - ./services/InventoryService/pom.xml:/workspace/pom.xml
-      - ./services/InventoryService/.mvn:/workspace/.mvn
-      - ./services/InventoryService/mvnw:/workspace/mvnw
     networks:
       - app-network
 
@@ -69,27 +84,25 @@ services:
     build:
       context: ./services/APIGateWay
       dockerfile: Dockerfile.dev
-    container_name: apigateway-dev
+    container_name: apigateway
     ports:
       - "8080:8080"
     depends_on:
       - authservice
       - inventoryservice
+    volumes:
+      - ./services/APIGateWay/src:/app/src
+      - ./services/APIGateWay/pom.xml:/app/pom.xml
     environment:
       SERVER_PORT: 8080
       JWT_SECRET: ${JWT_SECRET}
       TZ: ${TZ}
-    volumes:
-      - ./services/APIGateWay/src:/workspace/src
-      - ./services/APIGateWay/pom.xml:/workspace/pom.xml
-      - ./services/APIGateWay/.mvn:/workspace/.mvn
-      - ./services/APIGateWay/mvnw:/workspace/mvnw
     networks:
       - app-network
 
   adminer:
     image: adminer:latest
-    container_name: adminer-dev
+    container_name: adminer
     depends_on:
       - mysql-db
     environment:
@@ -100,8 +113,8 @@ services:
       - app-network
 
 volumes:
-  mysql-data:
-    name: mysql-data
+  mysql-data-dev:
+    name: mysql-data-dev
 
 networks:
   app-network:
