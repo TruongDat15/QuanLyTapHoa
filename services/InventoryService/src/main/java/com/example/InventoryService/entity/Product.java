@@ -50,7 +50,7 @@ public class Product implements Serializable {
     private Integer quantityInStock = 0;
 
     @Column(name = "reserved_quantity")
-    private Integer reservedQuantity = 0; // sản phẩm đặt chỗ
+    private int reservedQuantity = 0; // sản phẩm đặt chỗ
 
     @Column(name = "is_active")
     private Boolean isActive;

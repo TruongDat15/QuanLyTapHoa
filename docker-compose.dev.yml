@@ -80,6 +80,39 @@ services:
     networks:
       - app-network
 
+# orderservice
+
+  orderservice:
+    build:
+      context: ./services/OrderService
+      dockerfile: Dockerfile.dev
+    container_name: orderservice
+    ports:
+      - "8084:8080"
+    depends_on:
+      - mysql-db
+    volumes:
+      - ./services/OrderService/src:/app/src
+      - ./services/OrderService/pom.xml:/app/pom.xml
+      - ~/.m2/repository:/root/.m2/repository
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SERVER_PORT: 8080
+      JWT_SECRET: ${JWT_SECRET}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_PORT: ${RABBITMQ_PORT}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      TZ: ${TZ}
+    networks:
+      - app-network
+
   apigateway:
     build:
       context: ./services/APIGateWay
@@ -90,6 +123,7 @@ services:
     depends_on:
       - authservice
       - inventoryservice
+      - orderservice
     volumes:
       - ./services/APIGateWay/src:/app/src
       - ./services/APIGateWay/pom.xml:/app/pom.xml
