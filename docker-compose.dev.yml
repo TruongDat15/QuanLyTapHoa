@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   mysql-db:
@@ -26,6 +26,46 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-admin}
     networks:
       - app-network
+
+    # ==========================
+    # 🍃 MongoDB
+    # ==========================
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data-dev:/data/db
+    networks:
+      - app-network
+
+  # ==========================
+  # 🌿 Mongo Express
+  # ==========================
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8083:8081"
+    environment:
+
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin123
+
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+
 
   authservice:
     build:
@@ -113,6 +153,59 @@ services:
     networks:
       - app-network
 
+  customerservice:
+    build:
+      context: ./services/CustomerService
+      dockerfile: Dockerfile.dev
+    container_name: customerservice
+    ports:
+      - "8085:8080"
+    depends_on:
+      - mongodb
+    volumes:
+      - ./services/CustomerService/src:/app/src
+      - ./services/CustomerService/pom.xml:/app/pom.xml
+      - ~/.m2/repository:/root/.m2/repository
+    environment:
+      SERVER_PORT: 8080
+      JWT_SECRET: ${JWT_SECRET}
+      TZ: ${TZ}
+      SPRING_DATA_MONGODB_URI: ${SPRING_DATA_MONGODB_URI}
+    networks:
+      - app-network
+
+  paymentservice:
+    build:
+      context: ./services/PaymentService
+      dockerfile: Dockerfile.dev
+    container_name: paymentservice
+    ports:
+      - "8088:8080"
+    depends_on:
+      - mysql-db
+    volumes:
+      - ./services/PaymentService/src:/app/src
+      - ./services/PaymentService/pom.xml:/app/pom.xml
+      - ~/.m2/repository:/root/.m2/repository
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SERVER_PORT: 8080
+      JWT_SECRET: ${JWT_SECRET}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_PORT: ${RABBITMQ_PORT}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      TZ: ${TZ}
+    networks:
+      - app-network
+
+
   apigateway:
     build:
       context: ./services/APIGateWay
@@ -124,6 +217,8 @@ services:
       - authservice
       - inventoryservice
       - orderservice
+      - customerservice
+      - paymentservice
     volumes:
       - ./services/APIGateWay/src:/app/src
       - ./services/APIGateWay/pom.xml:/app/pom.xml
@@ -149,6 +244,9 @@ services:
 volumes:
   mysql-data-dev:
     name: mysql-data-dev
+  mongo-data-dev:
+    name: mongo-data-dev
+
 
 networks:
   app-network:

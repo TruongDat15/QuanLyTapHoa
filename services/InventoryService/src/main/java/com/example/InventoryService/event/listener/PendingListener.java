@@ -17,7 +17,7 @@ public class PendingListener {
     private final ProductService productService;
     private final InventoryPublisher publisher;
 
-    @RabbitListener(queues = INVENTORY_QUEUE)
+    @RabbitListener(queues = INVENTORY_ORDER_QUEUE)
     public void handleOrderCreated(OrderDTO orderDTO, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
         System.out.println("🔔 INVENTORY SERVICE: Received OrderCreatedEvent with message: "+ orderDTO);
 
@@ -28,6 +28,9 @@ public class PendingListener {
                 // gửi tin tồn kho khả dụng , cập nhật đơn hàng pending
                 publisher.publishInventoryReservedEvent(orderDTO);
 
+                // gui sư kien thanh toan
+                publisher.publishPaymentEvent(orderDTO);
+                System.out.println("Gui sư kiên thanh toan len Mq");
             } catch (Exception e){
                 System.err.println("❌ INVENTORY SERVICE: Failed to update inventory for Order ID: " + orderDTO.getOrderId());
 

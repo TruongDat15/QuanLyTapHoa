@@ -19,14 +19,22 @@ import static com.example.common.constrants.RabbitConstants.*;
 public class RabbitMQConfig {
 
     @Bean
-    public Queue inventoryQueue() { return new Queue(INVENTORY_QUEUE, false); }
+    public Queue inventoryOrderQueue() { return new Queue(INVENTORY_ORDER_QUEUE, false); }
+
+    @Bean
+    public Queue inventoryPaymentQueue() { return new Queue(INVENTORY_PAYMENT_QUEUE, false); }
 
     @Bean
     public TopicExchange exchange() { return new TopicExchange(ORDER_EXCHANGE); }
 
     @Bean
-    public Binding orderCreatedBinding(Queue inventoryQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(inventoryQueue).to(exchange).with(ORDER_KEY);
+    public Binding orderCreatedBinding(Queue inventoryOrderQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(inventoryOrderQueue).to(exchange).with(ORDER_KEY);
+    }
+
+    @Bean
+    public Binding paymentCreatedBinding(Queue inventoryPaymentQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(inventoryPaymentQueue).to(exchange).with(PAYMENT_KEY);
     }
 
 

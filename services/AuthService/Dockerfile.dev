@@ -1,0 +1,18 @@
+# Base image Maven + JDK để build và run dev
+FROM maven:3.9.9-eclipse-temurin-21-alpine
+
+# Thư mục làm việc trong container
+WORKDIR /app
+
+# Copy pom.xml trước để cache dependencies
+COPY pom.xml .
+RUN mvn -B dependency:go-offline
+
+# Copy source code (sẽ bị volume mount ghi đè khi dev)
+COPY src ./src
+
+# Expose port (mỗi service sẽ map khác nhau trong docker-compose)
+EXPOSE 8080
+
+# Chạy Spring Boot DEV mode, fork=false giúp reload nhanh
+CMD ["sh", "-c", "mvn -Dspring-boot.run.fork=false spring-boot:run -Dspring-boot.run.profiles=prod"]

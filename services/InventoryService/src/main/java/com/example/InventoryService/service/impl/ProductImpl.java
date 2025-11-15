@@ -5,6 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 
 import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.common.dto.orderdtos.OrderItemDTO;
+import com.example.common.dto.paymentdtos.PaymentResultDTO;
 import com.example.common.enums.reservedStatus;
 import com.example.InventoryService.dto.request.ProductRequest;
 import com.example.InventoryService.dto.response.ProductResponse;
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -309,6 +311,108 @@ public class ProductImpl implements ProductService {
         }
 
     }
+
+//    @Override
+//    public void handlePaymentCompleted(PaymentResultDTO paymentResultDTO) {
+//        // tru kho that va giamr giwx kho
+//        UUID orderId = paymentResultDTO.getOrderId();
+//
+//    }
+//
+//    @Override
+//    public void handlePaymentFailed(PaymentResultDTO paymentResultDTO) {
+//        // giamr cai giu tam kho
+//    }
+    @Override
+    @Transactional
+    public void handlePaymentCompleted(PaymentResultDTO paymentResultDTO) {
+
+        UUID orderId = paymentResultDTO.getOrderId();
+        log.info("Thanh toán thành công – xử lý trừ kho thật cho OrderID: {}", orderId);
+
+        // Lấy tất cả dòng giữ tạm của đơn hàng
+        List<InventoryReservation> reservations =
+                reservationRepository.findByOrderId(orderId);
+
+        if (reservations.isEmpty()) {
+            log.warn("Không tìm thấy giữ tạm nào cho OrderID {}", orderId);
+            return;
+        }
+
+        for (InventoryReservation reservation : reservations) {
+
+            // Lấy sản phẩm theo barcode
+            Product product = productRepository.findByBarcode(reservation.getBarcode())
+                    .orElseThrow(() ->
+                            new RuntimeException("Không tìm thấy sản phẩm barcode: " + reservation.getBarcode())
+                    );
+
+            int qty = reservation.getQuantity();
+
+            // Trừ kho thật
+            if (product.getQuantityInStock() < qty) {
+                throw new RuntimeException("Lỗi nghiêm trọng: tồn kho thực tế không đủ khi trừ!");
+            }
+            product.setQuantityInStock(product.getQuantityInStock() - qty);
+
+            // Giảm reservedQuantity (giải phóng giữ tạm)
+            product.setReservedQuantity(product.getReservedQuantity() - qty);
+
+            product.setLastUpdated(LocalDateTime.now());
+            productRepository.save(product);
+
+            // Cập nhật trạng thái giữ tạm
+            reservation.setStatus(reservedStatus.COMMIT);
+            reservationRepository.save(reservation);
+
+            log.info("Đã trừ {} khỏi kho thật & giảm thuộc tính reservedQuantity cho SP: {}",
+                    qty, reservation.getBarcode());
+        }
+
+        log.info("ĐÃ HOÀN TẤT TRỪ KHO CHO ĐƠN {}", orderId);
+    }
+
+    @Override
+    @Transactional
+    public void handlePaymentFailed(PaymentResultDTO paymentResultDTO) {
+
+        UUID orderId = paymentResultDTO.getOrderId();
+        log.info("Thanh toán thất bại / huỷ đơn – giải phóng giữ tạm cho OrderID: {}", orderId);
+
+        List<InventoryReservation> reservations =
+                reservationRepository.findByOrderId(orderId);
+
+        if (reservations.isEmpty()) {
+            log.warn("Không có giữ tạm nào để giải phóng cho Order {}", orderId);
+            return;
+        }
+
+        for (InventoryReservation reservation : reservations) {
+
+            Product product = productRepository.findByBarcode(reservation.getBarcode())
+                    .orElseThrow(() ->
+                            new RuntimeException("Không tìm thấy sản phẩm barcode: " + reservation.getBarcode())
+                    );
+
+            int qty = reservation.getQuantity();
+
+            // Chỉ giảm phần giữ tạm → không trừ kho thật
+            product.setReservedQuantity(product.getReservedQuantity() - qty);
+            product.setLastUpdated(LocalDateTime.now());
+            productRepository.save(product);
+
+            // Cập nhật status
+            reservation.setStatus(reservedStatus.ROLLBACK);
+
+            reservationRepository.save(reservation);
+
+            log.info("Đã trả lại {} đơn vị giữ tạm cho SP {}", qty, reservation.getBarcode());
+        }
+
+        log.info("ĐÃ GIẢI PHÓNG GIỮ TẠM CHO ĐƠN {}", orderId);
+    }
+
+
 
 
 }

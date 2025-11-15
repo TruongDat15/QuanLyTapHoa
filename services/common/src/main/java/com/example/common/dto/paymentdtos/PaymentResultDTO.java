@@ -1,25 +1,19 @@
-package com.example.PaymentService.entity;
-
+package com.example.common.dto.paymentdtos;
 
 import com.example.common.enums.PaymentMethod;
 import com.example.common.enums.PaymentStatus;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment {
-    @Id
-    @GeneratedValue
+public class PaymentResultDTO {
     private UUID paymentId;
     private UUID orderId;
     private PaymentStatus status;
@@ -30,6 +24,4 @@ public class Payment {
     private LocalDate updateDate;
     private String paymentReference;
     private String paymentNote;
-
-
 }

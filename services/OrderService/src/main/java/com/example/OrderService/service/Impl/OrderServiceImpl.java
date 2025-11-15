@@ -10,6 +10,7 @@ import com.example.common.constrants.RabbitConstants;
 import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.common.dto.orderdtos.OrderItemDTO;
 import com.example.common.enums.OrderStatus;
+import com.example.common.enums.PaymentMethod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -57,7 +58,6 @@ public class OrderServiceImpl implements OrderService {
         log.info("Processing pending order: {}", orderDTO.getOrderId());
         Order order = orderRepository.findById(orderDTO.getOrderId())
                 .orElseThrow(() -> new RuntimeException("Order not found"));
- //       order.setStatus(OrderStatus.PENDING);
         Double total = 0.0;
         for( OrderItemDTO itemDTO : orderDTO.getOrderItemDTOs()) {
 
@@ -79,14 +79,16 @@ public class OrderServiceImpl implements OrderService {
 
         order.setTotalAmount(total);
         orderDTO.setTotalPrice(total);
+        order.setPaymentMethod(orderDTO.getPaymentMethod());
         orderRepository.save(order);
 
-        System.out.println("✅ ORDER SERVICE: Order pending with ID " + order.getOrderId());
+        System.out.println("✅ ORDER SERVICE: Xử lí trạng thái nhận danh sách đơn hàng " + order.getOrderId());
         rabbitTemplate.convertAndSend(RabbitConstants.ORDER_EXCHANGE, RabbitConstants.ORDER_CREATED_KEY, orderDTO);
         return OrderDTO.builder()
                 .status(order.getStatus())
                 .totalPrice(order.getTotalAmount())
                 .createdAt(order.getCreatedAt())
+                .paymentMethod(order.getPaymentMethod())
                 .build();
     }
 
@@ -118,7 +120,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Optional<OrderDTO> updateStatus(UUID orderId, OrderStatus orderStatus) {
-        return Optional.empty();
+        try {
+            Order order = orderRepository.findById(orderId)
+                    .orElseThrow(() -> new RuntimeException("Order not found"));
+            order.setStatus(orderStatus);
+            orderRepository.save(order);
+            return Optional.of(OrderDTO.builder()
+                    .orderId(order.getOrderId())
+                    .status(order.getStatus())
+                    .cashierId(order.getCashierId())
+                    .createdAt(order.getCreatedAt())
+                    .build());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

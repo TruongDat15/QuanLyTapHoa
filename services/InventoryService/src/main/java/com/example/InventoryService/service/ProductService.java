@@ -3,6 +3,7 @@ package com.example.InventoryService.service;
 import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.InventoryService.dto.request.ProductRequest;
 import com.example.InventoryService.dto.response.ProductResponse;
+import com.example.common.dto.paymentdtos.PaymentResultDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,4 +22,8 @@ public interface ProductService {
     String uploadImage (MultipartFile file, Integer productId) throws IOException;
 
     void reserveStock(OrderDTO orderDTO);
+
+    void handlePaymentCompleted(PaymentResultDTO paymentResultDTO);
+
+    void handlePaymentFailed(PaymentResultDTO paymentResultDTO);
 }

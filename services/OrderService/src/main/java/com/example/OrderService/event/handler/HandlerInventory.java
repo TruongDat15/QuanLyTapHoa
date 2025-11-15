@@ -2,7 +2,6 @@ package com.example.OrderService.event.handler;
 
 import static com.example.common.constrants.RabbitConstants.*;
 
-import com.example.OrderService.entity.Order;
 import com.example.OrderService.service.OrderService;
 import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.common.enums.OrderStatus;
@@ -18,6 +17,7 @@ public class HandlerInventory {
 
     private final OrderService orderService;
 
+
     @RabbitListener(queues = ORDER_QUEUE)
     public void handleInventoryResponse(OrderDTO orderDTO, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey){
 
@@ -25,11 +25,14 @@ public class HandlerInventory {
 
         if(INVENTORY_RESERVED_KEY.equals(routingKey)){
 
-            System.out.println("Cap nhat don hang pending va goij thanh toasn");
+            System.out.println("Cap nhat don hang pending");
             orderService.updateStatus(orderDTO.getOrderId(), OrderStatus.PENDING);
-
         }else if(INVENTORY_REJECTED_KEY.equals(routingKey)){
             System.out.println("Không đủ tồn kho, vui lòng thử lại ");
+        }
+        else if(PAYMENT_COMPLETED_KEY.equals(routingKey)){
+            System.out.println("Thanh toán thanh cong , cap nhat don hang thanh cong");
+            orderService.updateStatus(orderDTO.getOrderId(), OrderStatus.COMPLETED);
         }
     }
 }

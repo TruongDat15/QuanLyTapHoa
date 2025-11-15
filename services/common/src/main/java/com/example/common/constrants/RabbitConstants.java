@@ -8,7 +8,8 @@ public class RabbitConstants {
 
     // Queues
     public static final String ORDER_QUEUE = "order.queue";
-    public static final String INVENTORY_QUEUE = "inventory.queue";
+    public static final String INVENTORY_ORDER_QUEUE = "inventory.order.queue";
+    public static final String INVENTORY_PAYMENT_QUEUE = "inventory.payment.queue";
     public static final String PAYMENT_QUEUE = "payment.queue";
     public static final String INVOICE_QUEUE = "invoice.queue";
 

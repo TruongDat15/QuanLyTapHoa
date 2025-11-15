@@ -60,49 +60,69 @@ Hệ thống POS này được thiết kế theo kiến trúc **Microservices**,
 
 ## 5. Hướng dẫn cài đặt nhanh với docker.
 
+### Chạy dev với docker-compose.dev.yml
 
+1) Tạo file `.env` tại thư mục gốc `D:\QuanLiTapHoa` với nội dung tối thiểu:
 
-Chạy tại thư mục gốc dự án `D:\QuanLiTapHoa`:
+```dotenv
+# MySQL
+MYSQL_ROOT_PASSWORD=123456
+MYSQL_DATABASE=appdb
+SPRING_DATASOURCE_USERNAME=root
+SPRING_DATASOURCE_PASSWORD=123456
 
-```powershell
-docker compose up -d --build
+# JWT
+JWT_SECRET=super-secret-change-me
+
+# RabbitMQ
+RABBITMQ_HOST=rabbitmq
+RABBITMQ_PORT=5672
+RABBITMQ_DEFAULT_USER=admin
+RABBITMQ_DEFAULT_PASS=admin
+
+# Cloudinary (nếu dùng upload ảnh)
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+# Timezone
+TZ=Asia/Ho_Chi_Minh
 ```
 
-Các service sẽ chạy:
-- MySQL: port 3307 (host) → 3306 (container), DB: `appdb` (volume: `mysql-data`).
-- AuthService: http://localhost:8081 (trong container: 8080)
-- InventoryService: http://localhost:8082 (trong container: 8080)
-- API Gateway: http://localhost:8080
+2) Khởi chạy toàn bộ services (tại thư mục gốc):
+
+```powershell
+docker compose -f docker-compose.dev.yml up -d --build
+```
+
+3) Dừng và xoá containers:
+
+```powershell
+docker compose -f docker-compose.dev.yml down
+```
+
+4) Xem logs nhanh (tuỳ chọn):
+
+```powershell
+docker compose -f docker-compose.dev.yml logs -f apigateway
+```
+
+Các endpoint/dev URLs:
+- MySQL: 127.0.0.1:3307 → 3306 (container), DB: `appdb` (volume: `mysql-data-dev`).
 - Adminer (duyệt DB): http://localhost:8086
+- RabbitMQ Management: http://localhost:15672 (user/pass trong `.env`)
+- AuthService: http://localhost:8081 (container: 8080)
+- InventoryService: http://localhost:8082 (container: 8080)
+- OrderService: http://localhost:8084 (container: 8080)
+- API Gateway: http://localhost:8080
 
 Thông tin đăng nhập MySQL cho Adminer:
 - Server: `mysql-db` (hoặc 127.0.0.1:3307)
 - User: `root`
-- Pass: giá trị `MYSQL_ROOT_PASSWORD` trong `.env` (mặc định 123456)
+- Pass: lấy từ `MYSQL_ROOT_PASSWORD` trong `.env`
 - Database: `appdb`
 
-## 6. Hướng dẫn cài đặt.
-1. Clone repository về máy:
+Ghi chú cho Windows:
+- Nếu gặp lỗi mount `~/.m2/repository` khi chạy Docker Desktop, bạn có thể xoá 2 dòng mount `~/.m2/repository` trong `docker-compose.dev.yml` cho các service Java, hoặc thay bằng đường dẫn tuyệt đối tới `C:\Users\<User>\.m2\repository`.
 
-  Click a badge to open the service folder on GitHub. To run locally in CMD / PowerShell, use the commands below:
-  
-      cd `D:\QuanLiTapHoa\services\AuthService`
-      .\mvnw.cmd spring-boot:run
-  
-      cd `D:\QuanLiTapHoa\services\InventoryService`
-      .\mvnw.cmd spring-boot:run
-  
-      cd `D:\QuanLiTapHoa\services\APIGateWay`
-      .\mvnw.cmd spring-boot:run 
-```bash
-   git clone <repo-url>
-````
 
-2. Khởi chạy các service theo thứ tự:
-
-    1. Database
-    2. Discovery Service (nếu dùng)
-    3. User & Auth Service
-    4. Inventory Service
-    5. Order Service
-    6. API Gateway

@@ -31,4 +31,13 @@ public class InventoryPublisher {
         );
         System.out.println("Khong du ton kho, thay doi hoac dois");
     }
+
+    public void publishPaymentEvent(OrderDTO orderDTO){
+        rabbitTemplate.convertAndSend(
+                ORDER_EXCHANGE,
+                PAYMENT_REQUESTED_KEY,
+                orderDTO
+        );
+        System.out.println("Gui su kien thanh toan thanh cong");
+    }
 }
