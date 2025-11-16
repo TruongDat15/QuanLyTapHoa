@@ -25,7 +25,7 @@ public class OrderItem {
     private String productId;
     private Integer quantity;
     private double price;
-
+    private String note;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
