@@ -169,6 +169,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDTO updateDraftOrder(OrderDTO orderDTO) {
+        log.info("[updateDraftOrder] Gọi cập nhật đơn nháp: orderId={}, cashierId={}, itemCount={}",
+                orderDTO.getOrderId(), orderDTO.getCashierId(),
+                orderDTO.getOrderItemDTOs() == null ? 0 : orderDTO.getOrderItemDTOs().size());
+        System.out.println("[updateDraftOrder] Gọi cập nhật đơn nháp: orderId=" + orderDTO.getOrderId()
+                + ", cashierId=" + orderDTO.getCashierId()
+                + ", itemCount=" + (orderDTO.getOrderItemDTOs() == null ? 0 : orderDTO.getOrderItemDTOs().size()));
 
         if (orderDTO == null || orderDTO.getOrderId() == null) {
             throw new IllegalArgumentException("OrderDTO or orderId is null");
@@ -181,9 +187,14 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalArgumentException("Only draft orders can be updated");
         }
 
-        // ownership check: caller must be athe cashier who creted the draft
+        // ownership check: caller must be the cashier who created the draft
         if (orderDTO.getCashierId() == null || !orderDTO.getCashierId().equals(order.getCashierId())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not authorized to update this draft");
+        }
+
+        // Cập nhật customerId nếu FE gửi lên
+        if (orderDTO.getCustomerId() != null && !orderDTO.getCustomerId().isBlank()) {
+            order.setCustomerId(orderDTO.getCustomerId());
         }
 
         // remove existing items using orphanRemoval by clearing the collection — không save tạm để tránh tăng version nhiều lần
@@ -194,11 +205,9 @@ public class OrderServiceImpl implements OrderService {
         }
 
         double total = 0.0;
-        List<OrderItem> items = new ArrayList<>();
-
+        List<OrderItemDTO> itemDTOs = new ArrayList<>();
         if (orderDTO.getOrderItemDTOs() != null && !orderDTO.getOrderItemDTOs().isEmpty()) {
             for (OrderItemDTO it : orderDTO.getOrderItemDTOs()) {
-                // OrderItemDTO uses primitive types for quantity/price, so no null check
                 int qty = it.getQuantity();
                 double price = it.getPrice();
                 double sub = qty * price;
@@ -211,14 +220,18 @@ public class OrderServiceImpl implements OrderService {
                         .price(price)
                         .order(order)
                         .build();
-                items.add(item);
+                order.getOrderItems().add(item);
                 total += sub;
+                // clone lại DTO để trả về đúng dữ liệu
+                OrderItemDTO clone = OrderItemDTO.builder()
+                        .productName(it.getProductName())
+                        .barcode(it.getBarcode())
+                        .quantity(qty)
+                        .price(price)
+                        .subTotal(sub)
+                        .build();
+                itemDTOs.add(clone);
             }
-
-            // không gọi orderItemRepository.saveAll(items) — dùng cascade
-            order.setOrderItems(items);
-        } else {
-            order.setOrderItems(new ArrayList<>());
         }
 
         order.setTotalAmount(total);
@@ -230,6 +243,10 @@ public class OrderServiceImpl implements OrderService {
         // save order 1 lần
         orderRepository.save(order);
 
+        log.info("[updateDraftOrder] Đã lưu đơn nháp: orderId={}, tổng tiền={}", order.getOrderId(), order.getTotalAmount());
+        System.out.println("[updateDraftOrder] Đã lưu đơn nháp: orderId=" + order.getOrderId()
+                + ", totalAmount=" + order.getTotalAmount());
+
         // reflect computed total back to DTO for FE
         orderDTO.setTotalPrice(total);
 
@@ -239,8 +256,9 @@ public class OrderServiceImpl implements OrderService {
                 .cashierId(order.getCashierId())
                 .createdAt(order.getCreatedAt())
                 .totalPrice(order.getTotalAmount())
-                .orderItemDTOs(orderDTO.getOrderItemDTOs())
+                .orderItemDTOs(itemDTOs)
                 .paymentMethod(order.getPaymentMethod())
+                .customerId(order.getCustomerId())
                 .build();
     }
 
@@ -250,12 +268,29 @@ public class OrderServiceImpl implements OrderService {
         List<Order> drafts = orderRepository.findByCashierIdAndStatus(cashierId, OrderStatus.DRAFT);
         List<OrderDTO> dtos = new ArrayList<>();
         for (Order o : drafts) {
+            // build orderItemDTOs từ orderItems
+            List<OrderItemDTO> itemDTOs = new ArrayList<>();
+            if (o.getOrderItems() != null) {
+                for (OrderItem item : o.getOrderItems()) {
+                    OrderItemDTO dto = OrderItemDTO.builder()
+                            .productName(item.getProductName())
+                            .barcode(item.getBarcode())
+                            .quantity(item.getQuantity())
+                            .price(item.getPrice())
+                            .subTotal(item.getPrice() * item.getQuantity())
+                            .build();
+                    itemDTOs.add(dto);
+                }
+            }
             OrderDTO dto = OrderDTO.builder()
                     .orderId(o.getOrderId())
                     .status(o.getStatus())
                     .cashierId(o.getCashierId())
                     .createdAt(o.getCreatedAt())
                     .totalPrice(o.getTotalAmount())
+                    .orderItemDTOs(itemDTOs)
+                    .paymentMethod(o.getPaymentMethod())
+                    .customerId(o.getCustomerId())
                     .build();
             dtos.add(dto);
         }
