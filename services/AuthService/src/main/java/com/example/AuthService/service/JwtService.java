@@ -23,7 +23,7 @@ public class JwtService {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
     
         Date issueTime = new Date();
-        Date expirationTime = new Date(issueTime.getTime() + 3600000); // 1 hour validity
+        Date expirationTime = new Date(issueTime.getTime() + 36000000); // 1 hour validity
 
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())

@@ -39,8 +39,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
-    @Version
-    private Long version;
+//    @Version
+//    private Long version;
 
     @PrePersist
     @SuppressWarnings("unused")

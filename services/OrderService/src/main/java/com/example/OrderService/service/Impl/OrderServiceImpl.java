@@ -64,6 +64,15 @@ public class OrderServiceImpl implements OrderService {
         log.info("Processing pending order: {}", orderDTO.getOrderId());
         Order order = orderRepository.findById(orderDTO.getOrderId())
                 .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        // --- Thêm check trạng thái draft ---
+        if (order.getStatus() != OrderStatus.DRAFT) {
+            throw new IllegalStateException(
+                    "Only draft orders can be moved to pending. Current status: " + order.getStatus()
+            );
+        }
+
+
         double total = 0.0;
 
         if (orderDTO.getCustomerId() == null || orderDTO.getCustomerId().isBlank()) {
@@ -87,17 +96,16 @@ public class OrderServiceImpl implements OrderService {
             total += itemDTO.getSubTotal();
         }
 
-        // persist items in batch and attach to order
-        if (!pendingItems.isEmpty()) {
-            orderItemRepository.saveAll(pendingItems);
-            order.setOrderItems(pendingItems);
-        } else {
-            order.setOrderItems(new ArrayList<>());
-        }
+        // Không gọi save cho items riêng lẻ — dùng cascade của Order (CascadeType.ALL) để persist/merge items khi save order
+
+        // update orderItems collection an toàn
+        order.getOrderItems().clear();       // xóa các item cũ
+        order.getOrderItems().addAll(pendingItems); // thêm các item mới
 
         order.setTotalAmount(total);
         orderDTO.setTotalPrice(total);
         order.setPaymentMethod(orderDTO.getPaymentMethod());
+        // chỉ save order một lần để tránh nhiều lần cập nhật tăng version
         orderRepository.save(order);
 
         log.info("✅ ORDER SERVICE: Xử lí trạng thái nhận danh sách đơn hàng {}", order.getOrderId());
@@ -107,6 +115,10 @@ public class OrderServiceImpl implements OrderService {
                 .totalPrice(order.getTotalAmount())
                 .createdAt(order.getCreatedAt())
                 .paymentMethod(order.getPaymentMethod())
+                .orderId(order.getOrderId())
+                .cashierId(order.getCashierId())
+                .customerId(order.getCustomerId())
+        //        .orderItemDTOs(orderDTO.getOrderItemDTOs())
                 .build();
     }
 
@@ -166,18 +178,19 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
         if (order.getStatus() != OrderStatus.DRAFT) {
-            throw new RuntimeException("Only draft orders can be updated");
+            throw new IllegalArgumentException("Only draft orders can be updated");
         }
 
-        // ownership check: caller must be the cashier who created the draft
+        // ownership check: caller must be athe cashier who creted the draft
         if (orderDTO.getCashierId() == null || !orderDTO.getCashierId().equals(order.getCashierId())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not authorized to update this draft");
         }
 
-        // remove existing items using orphanRemoval by clearing the collection and saving the owner
-        if (order.getOrderItems() != null && !order.getOrderItems().isEmpty()) {
+        // remove existing items using orphanRemoval by clearing the collection — không save tạm để tránh tăng version nhiều lần
+        if (order.getOrderItems() == null) {
+            order.setOrderItems(new ArrayList<>());
+        } else {
             order.getOrderItems().clear();
-            orderRepository.save(order);
         }
 
         double total = 0.0;
@@ -202,7 +215,7 @@ public class OrderServiceImpl implements OrderService {
                 total += sub;
             }
 
-            orderItemRepository.saveAll(items);
+            // không gọi orderItemRepository.saveAll(items) — dùng cascade
             order.setOrderItems(items);
         } else {
             order.setOrderItems(new ArrayList<>());
@@ -214,6 +227,7 @@ public class OrderServiceImpl implements OrderService {
             order.setPaymentMethod(orderDTO.getPaymentMethod());
         }
 
+        // save order 1 lần
         orderRepository.save(order);
 
         // reflect computed total back to DTO for FE
