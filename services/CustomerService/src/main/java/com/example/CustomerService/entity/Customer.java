@@ -22,5 +22,6 @@ public class Customer {
 
     private String email;
     private String address;
-    private String type; // "Khách lẻ" hoặc "Khách quen"
+    // 0 = unknown, 1 = male, 2 = female
+    private Integer gender;
 }

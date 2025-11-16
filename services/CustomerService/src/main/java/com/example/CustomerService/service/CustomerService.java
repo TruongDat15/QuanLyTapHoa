@@ -22,6 +22,22 @@ public class CustomerService {
     public Customer save(Customer customer) {
         // không cho phép tạo khách hàng trùng
         Optional<Customer> optionalCustomer = repository.findByPhone(customer.getPhone());
+        // if creating new (no id) and a customer with same phone exists -> conflict
+        if (optionalCustomer.isPresent()) {
+            Customer existing = optionalCustomer.get();
+            if (customer.getId() == null || !existing.getId().equals(customer.getId())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Customer with this phone already exists");
+            }
+        }
+        // ensure gender is set and valid
+        if (customer.getGender() == null) {
+            customer.setGender(0); // default unknown
+        } else {
+            int g = customer.getGender();
+            if (g < 0 || g > 2) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid gender value. Allowed: 0,1,2");
+            }
+        }
         try {
             return repository.save(customer);
         } catch (Exception e) {

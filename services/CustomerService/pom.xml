@@ -70,6 +70,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- dependency on local common module for constants and DTOs -->
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>common-dto</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

@@ -5,7 +5,6 @@ import com.example.common.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -31,20 +30,26 @@ public class Order {
     private double totalAmount;
     private OrderStatus status;
 
-
     @Column(updatable = false)
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private boolean locked;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
+    @Version
+    private Long version;
+
     @PrePersist
+    @SuppressWarnings("unused")
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
+    @SuppressWarnings("unused")
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }

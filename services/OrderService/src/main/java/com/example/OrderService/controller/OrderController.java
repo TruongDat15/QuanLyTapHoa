@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -31,6 +33,16 @@ public class OrderController {
         return ResponseEntity.ok(orderDTO);
     }
 
+    // auto save draft order every time an item is added or removed
+    @PutMapping("/draft")
+    public ResponseEntity<OrderDTO> updateDraftOrder(@RequestBody OrderDTO orderDTO) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        // ensure the DTO carries the caller as cashierId so service can validate ownership
+        orderDTO.setCashierId(username);
+        OrderDTO updatedOrderDTO = orderService.updateDraftOrder(orderDTO);
+        return ResponseEntity.ok(updatedOrderDTO);
+    }
+
 
     @PutMapping("/pending")
     public ResponseEntity<OrderDTO> pendingOrder(@RequestBody OrderDTO orderDTO) {
@@ -38,6 +50,20 @@ public class OrderController {
         return ResponseEntity.ok(updatedOrderDTO);
     }
 
+    @GetMapping("/drafts/me")
+    public ResponseEntity<List<OrderDTO>> getMyDrafts() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<OrderDTO> drafts = orderService.findDraftsByCashier(username);
+        return ResponseEntity.ok(drafts);
+    }
+
+    @DeleteMapping("/draft/{id}")
+    public ResponseEntity<Void> deleteDraft(@PathVariable UUID id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        boolean deleted = orderService.deleteDraft(id, username);
+        if (deleted) return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
+    }
 
 
     @GetMapping("/test")

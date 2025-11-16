@@ -20,7 +20,7 @@ import java.util.UUID;
 public class OrderDTO {
     private UUID orderId;
     private String cashierId;
-    private UUID customerId;
+    private String customerId;
     private Double totalPrice;
     private OrderStatus status;
     private PaymentMethod paymentMethod;

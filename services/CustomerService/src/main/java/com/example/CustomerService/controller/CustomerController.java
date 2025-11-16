@@ -2,11 +2,11 @@ package com.example.CustomerService.controller;
 
 
 
+
 import com.example.CustomerService.entity.Customer;
 import com.example.CustomerService.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -20,6 +20,16 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<Customer> create(@RequestBody Customer customer) {
         return ResponseEntity.ok(service.save(customer));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> update(@PathVariable String id, @RequestBody Customer customer) {
+        return service.getById(id)
+                .map(existing -> {
+                    customer.setId(id);
+                    return ResponseEntity.ok(service.save(customer));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
@@ -45,12 +55,6 @@ public class CustomerController {
     public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/me")
-    public ResponseEntity<String> currentUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok("Current user: " + username);
     }
 
 }
