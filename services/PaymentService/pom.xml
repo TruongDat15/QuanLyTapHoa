@@ -12,7 +12,7 @@
 	<artifactId>PaymentService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PaymentService</name>
-	<description>Thanh toan, call api den vnpay momo ...</description>
+	<description>Thanh toan, call api den vnpay</description>
 	<url/>
 	<licenses>
 		<license/>
