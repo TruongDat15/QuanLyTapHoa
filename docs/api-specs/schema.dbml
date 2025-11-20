@@ -1,0 +1,168 @@
+Enum "IMPORT_PRODUCT_status_enum" {
+  "COMPLETE"
+  "COMPLETED"
+  "DRAFT"
+}
+
+Table "Brand" {
+  "brandId" int [pk, not null, increment]
+  "brandDes" varchar(255)
+  "brandName" varchar(255)
+}
+
+Table "Category" {
+  "categoryId" int [pk, not null, increment]
+  "categoryDes" varchar(255)
+  "categoryName" varchar(255) [not null]
+}
+
+Table "IMPORT_DETAIL" {
+  "id" int [pk, not null, increment]
+  "barcode" varchar(255)
+  "discount" double
+  "importPrice" double
+  "quantity" int
+  "subtotal" double
+  "unit" varchar(255)
+  "import_product_id" int
+}
+
+Table "IMPORT_PRODUCT" {
+  "importProductId" int [pk, not null, increment]
+  "createdAt" datetime(6)
+  "createdBy" varchar(255)
+  "note" varchar(255)
+  "status" IMPORT_PRODUCT_status_enum
+  "totalAmount" double
+  "updatedAt" datetime(6)
+  "supplier_id" int
+}
+
+Table "OrderItem" {
+  "price" double [not null]
+  "quantity" int
+  "orderItemId" binary(16) [pk, not null]
+  "order_id" binary(16)
+  "barcode" varchar(255)
+  "productId" varchar(255)
+  "productName" varchar(255)
+  "unit" varchar(255)
+  "note" varchar(255)
+}
+
+Table "PRODUCT" {
+  "product_id" int [pk, not null, increment]
+  "barcode" varchar(255)
+  "cost_of_capital" double
+  "discount" double
+  "image" varchar(255)
+  "is_active" bit(1)
+  "last_updated" datetime(6)
+  "product_name" varchar(255)
+  "quantity_in_stock" int [not null]
+  "reserved_quantity" int
+  "selling_price" double
+  "unit" varchar(255)
+  "brand_id" int
+  "category_id" int
+}
+
+Table "PRODUCT_PRICE_HISTORY" {
+  "id" int [pk, not null, increment]
+  "changedAt" datetime(6)
+  "changedBy" varchar(255)
+  "newPrice" double
+  "oldPrice" double
+  "product_id" int
+}
+
+Table "Payment" {
+  "paymentId" binary(16) [pk, not null]
+  "amount" double [not null]
+  "createDate" date
+  "orderId" binary(16)
+  "paymentMethod" tinyint
+  "paymentNote" varchar(255)
+  "paymentReference" varchar(255)
+  "status" tinyint
+  "transactionId" varchar(255)
+  "updateDate" date
+}
+
+Table "Receipt" {
+  "orderId" binary(16)
+  "receiptId" binary(16) [pk, not null]
+  "content" varchar(255)
+  "issuedAt" varchar(255)
+  "receiptNumber" varchar(255)
+  "storeInfo" varchar(255)
+  "taxCode" varchar(255)
+}
+
+Table "Supplier" {
+  "supplierId" int [pk, not null, increment]
+  "address" varchar(255)
+  "email" varchar(255)
+  "note" varchar(255)
+  "phone" varchar(255)
+  "supplierName" varchar(255) [not null]
+}
+
+Table "inventory_reservations" {
+  "reservationId" binary(16) [pk, not null]
+  "barcode" varchar(255)
+  "createdAt" datetime(6)
+  "orderId" binary(16)
+  "productId" varchar(255)
+  "productName" varchar(255)
+  "quantity" int
+  "status" tinyint
+  "unit" varchar(255)
+}
+
+Table "orders" {
+  "paymentMethod" tinyint
+  "status" tinyint
+  "totalAmount" double [not null]
+  "createdAt" datetime(6)
+  "updatedAt" datetime(6)
+  "orderId" binary(16) [pk, not null]
+  "cashierId" varchar(255)
+  "customerId" varchar(255)
+  "locked" bit(1) [not null]
+  "version" bigint
+  "orderNote" varchar(255)
+}
+
+Table "products" {
+  "id" bigint [pk, not null, increment]
+  "name" varchar(255) [not null]
+  "price" double [not null]
+}
+
+Table "users" {
+  "id" bigint [pk, not null, increment]
+  "address" varchar(255)
+  "dateOfBirth" date
+  "des" varchar(255)
+  "email" varchar(255)
+  "fullName" varchar(255)
+  "gender" int
+  "isUpdatedProfile" bit(1) [not null]
+  "password" varchar(255)
+  "phoneNumber" varchar(255)
+  "role" varchar(255)
+  "username" varchar(255) [unique]
+}
+
+Ref "FKciefkkw075dp76pdsct9mdwxc":"IMPORT_PRODUCT"."importProductId" < "IMPORT_DETAIL"."import_product_id"
+
+Ref "FKkb54y643jcqk9xhx6ahwvnga2":"Supplier"."supplierId" < "IMPORT_PRODUCT"."supplier_id"
+
+Ref "FKc2tmocf2397u5byw57cysbp22":"orders"."orderId" < "OrderItem"."order_id"
+
+Ref "FK8bpb8xv3v7i0aa8i6a2afr6ap":"Brand"."brandId" < "PRODUCT"."brand_id"
+
+Ref "FKskh94fw3m71nl1rxygodt97ty":"Category"."categoryId" < "PRODUCT"."category_id"
+
+Ref "FK2a85mmetsqnj4rmai8eitkdkh":"PRODUCT"."product_id" < "PRODUCT_PRICE_HISTORY"."product_id"

@@ -128,7 +128,6 @@ public class ProductImpl implements ProductService {
         if (productRequest.getBrandId() != null) {
             brand = brandRepository.findById(productRequest.getBrandId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid brand ID"));
-
         }
 
         String barcode = productRequest.getBarcode();

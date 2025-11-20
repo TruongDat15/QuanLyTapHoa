@@ -2,9 +2,7 @@ package com.example.OrderService.controller;
 
 
 
-import com.example.OrderService.repository.OrderRepository;
 import com.example.OrderService.service.OrderService;
-
 import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.common.utils.HelloUtil;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ import java.util.UUID;
 public class OrderController {
 
     private final OrderService orderService;
-    private final OrderRepository orderRepository;
 
 
     @PostMapping("/draft")
@@ -42,14 +39,6 @@ public class OrderController {
         OrderDTO updatedOrderDTO = orderService.updateDraftOrder(orderDTO);
         return ResponseEntity.ok(updatedOrderDTO);
     }
-
-
-    @PutMapping("/pending")
-    public ResponseEntity<OrderDTO> pendingOrder(@RequestBody OrderDTO orderDTO) {
-        OrderDTO updatedOrderDTO = orderService.pendingOrder(orderDTO);
-        return ResponseEntity.ok(updatedOrderDTO);
-    }
-
     @GetMapping("/drafts/me")
     public ResponseEntity<List<OrderDTO>> getMyDrafts() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -65,6 +54,13 @@ public class OrderController {
         return ResponseEntity.notFound().build();
     }
 
+    // fe gửi order lên để chuyển từ draft sang pending , nhận về trạng thái processing và đợi  notification websocket
+    // khi order được xử lý xong gửi trạng thái pending về cho fe
+    @PutMapping("/pending")
+    public ResponseEntity<OrderDTO> pendingOrder(@RequestBody OrderDTO orderDTO) {
+        OrderDTO updatedOrderDTO = orderService.pendingOrder(orderDTO);
+        return ResponseEntity.ok(updatedOrderDTO);
+    }
 
     @GetMapping("/test")
     public String test() {
@@ -75,4 +71,5 @@ public class OrderController {
     public String helloFromShared() {
         return HelloUtil.helloWorld();
     }
+
 }

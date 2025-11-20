@@ -39,9 +39,14 @@ public class PaymentService {
                 payment.setTransactionId(UUID.randomUUID().toString());
                 log.info("THANH TOAN TIEN MAT");
                 break;
-            case QR_CODE:
+            case BANK:
                 payment.setStatus(PaymentStatus.PENDING);
                 payment.setTransactionId(UUID.randomUUID().toString());
+                log.info("THANH TOAN QRCODE - CHO XAC NHAN");
+                break;
+            case WALLET:
+                payment.setStatus(PaymentStatus.PENDING);
+                log.info("THANH TOAN VI DIEN TU - THAT BAI");
                 break;
             default:
                 break;

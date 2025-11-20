@@ -25,7 +25,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@SuppressWarnings("unused")
+
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
@@ -72,7 +72,6 @@ public class OrderServiceImpl implements OrderService {
             );
         }
 
-
         double total = 0.0;
 
         if (orderDTO.getCustomerId() == null || orderDTO.getCustomerId().isBlank()) {
@@ -105,6 +104,10 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(total);
         orderDTO.setTotalPrice(total);
         order.setPaymentMethod(orderDTO.getPaymentMethod());
+
+
+        //
+        order.setStatus(OrderStatus.PROCESSING);
         // chỉ save order một lần để tránh nhiều lần cập nhật tăng version
         orderRepository.save(order);
 
@@ -123,29 +126,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDTO cancelOrder(UUID orderId) {
-
-        return null;
-    }
-
-    @Override
-    public OrderDTO completeOrder(UUID orderId) {
-        return null;
-    }
-
-    @Override
     public OrderDTO findOrderById(UUID orderId) {
         return null;
-    }
-
-    @Override
-    public List<OrderDTO> findByStatus(OrderStatus status) {
-        return List.of();
-    }
-
-    @Override
-    public List<OrderDTO> findAllOrders() {
-        return List.of();
     }
 
     @Override
@@ -176,7 +158,7 @@ public class OrderServiceImpl implements OrderService {
                 + ", cashierId=" + orderDTO.getCashierId()
                 + ", itemCount=" + (orderDTO.getOrderItemDTOs() == null ? 0 : orderDTO.getOrderItemDTOs().size()));
 
-        if (orderDTO == null || orderDTO.getOrderId() == null) {
+        if (orderDTO.getOrderId() == null) {
             throw new IllegalArgumentException("OrderDTO or orderId is null");
         }
 
@@ -307,5 +289,7 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.delete(order);
         return true;
     }
+
+
 
 }

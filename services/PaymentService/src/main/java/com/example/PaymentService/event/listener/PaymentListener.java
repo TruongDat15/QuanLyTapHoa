@@ -36,7 +36,10 @@ public class PaymentListener {
                 if(payment.getStatus() == PaymentStatus.COMPLETED){
                     // phát sự kiện thành công và yêu cầu cập nhật trạng thái đơn hàng, truwf kho.
                     paymentService.publishPaymentCompleted(payment);
-                    log.info(" ỬI SỰ KIỆN THANH TON THÀNH CÔNG");
+                    log.info(" GỬI SỰ KIỆN THANH TOÁN THÀNH CÔNG");
+                }else if(payment.getStatus() == PaymentStatus.PENDING){
+                    // gọi api lấy QR code cho fe
+
                 }
 
             }catch (Exception e){

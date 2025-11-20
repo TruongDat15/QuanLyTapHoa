@@ -1,0 +1,99 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.1.0">
+  <diagram name="Page-1" id="12345678-1234-1234-1234-123456789012">
+    <mxGraphModel dx="1239" dy="631" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-19" edge="1" parent="1" source="group3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="rabbitmq">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="group3" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Services" vertex="1">
+          <mxGeometry height="190" width="680" x="100" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="auth_service" parent="group3" style="rounded=1;whiteSpace=wrap;html=1;" value="AuthService" vertex="1">
+          <mxGeometry height="40" width="80" x="70" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="customer_service" parent="group3" style="rounded=1;whiteSpace=wrap;html=1;" value="CustomerService" vertex="1">
+          <mxGeometry height="40" width="100" x="60" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-14" edge="1" parent="group3" source="order_service" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="VJXF_pNk_Zi7cF1P1ULY-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="order_service" parent="group3" style="rounded=1;whiteSpace=wrap;html=1;" value="OrderService" vertex="1">
+          <mxGeometry height="40" width="80" x="210" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-15" edge="1" parent="group3" source="inventory_service" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="VJXF_pNk_Zi7cF1P1ULY-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="inventory_service" parent="group3" style="rounded=1;whiteSpace=wrap;html=1;" value="InventoryService" vertex="1">
+          <mxGeometry height="40" width="100" x="350" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-16" edge="1" parent="group3" source="payment_service" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="VJXF_pNk_Zi7cF1P1ULY-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="payment_service" parent="group3" style="rounded=1;whiteSpace=wrap;html=1;" value="PaymentService" vertex="1">
+          <mxGeometry height="40" width="90" x="490" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="notification_service" parent="group3" style="rounded=1;whiteSpace=wrap;html=1;" value="NotificationService WS" vertex="1">
+          <mxGeometry height="30" width="130" x="500" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-13" parent="group3" style="rounded=1;whiteSpace=wrap;html=1;" value="Common" vertex="1">
+          <mxGeometry height="30" width="130" x="210" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="group4" parent="1" style="swimlane;whiteSpace=wrap;html=1;" value="Databases" vertex="1">
+          <mxGeometry height="100" width="490" x="110" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="mysql" parent="group4" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fillColor=#E1F5FE;strokeColor=#03A9F4;" value="MySQL DB" vertex="1">
+          <mxGeometry height="60" width="120" x="300" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb" parent="group4" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fillColor=#E1F5FE;strokeColor=#03A9F4;" value="MongoDB DB" vertex="1">
+          <mxGeometry height="60" width="120" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="conn1" edge="1" parent="1" source="client" style="endArrow=classic;html=1;rounded=0;" target="api_gateway" value="HTTP/WS">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="360" y="80" as="sourcePoint" />
+            <mxPoint x="410" y="30" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-6" edge="1" parent="1" source="config_server" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="group3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="config_server" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Config Server" vertex="1">
+          <mxGeometry height="40" width="120" x="600" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-2" edge="1" parent="1" source="api_gateway" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="group3" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="270" />
+              <mxPoint x="410" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="api_gateway" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="API Gateway" vertex="1">
+          <mxGeometry height="40" width="120" x="350" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="rabbitmq" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#FFEB3B;" value="RabbitMQ Broker" vertex="1">
+          <mxGeometry height="40" width="120" x="640" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-9" edge="1" parent="1" source="sepay" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="payment_service">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sepay" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCBC;strokeColor=#FF5722;arcSize=0;" value="Sepay Webhook" vertex="1">
+          <mxGeometry height="30" width="250" x="840" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-7" edge="1" parent="1" source="vnpay" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="payment_service">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="vnpay" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCBC;strokeColor=#FF5722;" value="VNPay Webhook" vertex="1">
+          <mxGeometry height="30" width="240" x="840" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="client" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCBC;strokeColor=#FF5722;" value="Client (Web/Mobile)" vertex="1">
+          <mxGeometry height="40" width="240" x="290" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="VJXF_pNk_Zi7cF1P1ULY-12" edge="1" parent="1" source="customer_service" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="mongodb">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

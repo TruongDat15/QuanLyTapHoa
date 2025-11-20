@@ -1,7 +1,7 @@
 package com.example.common.enums;
 
 public enum PaymentMethod {
-    QR_CODE,
-    CASH,
-    BANK
+    CASH,       // Physical cash payment
+    BANK,       // Bank transfer payment
+    WALLET      // Digital wallet payment
 }

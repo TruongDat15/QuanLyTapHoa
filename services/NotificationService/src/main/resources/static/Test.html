@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông báo thanh toán</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+</head>
+<body>
+<h2>Kết quả thanh toán</h2>
+<div id="result"></div>
+
+<script>
+    const orderId = "1234"; // đổi sang orderId cần subscribe
+
+    const socket = new SockJS("http://localhost:8888/ws-notify");
+    const stomp = Stomp.over(socket);
+
+    stomp.connect({}, () => {
+        console.log("Kết nối WebSocket thành công");
+        stomp.subscribe(`/topic/order/${orderId}`, (msg) => {
+            const data = JSON.parse(msg.body);
+            const resultDiv = document.getElementById("result");
+
+            // Nếu orderId = 1234 thì hiển thị QR
+            if(data.orderId === "1234") {
+                resultDiv.innerHTML =
+                    `<p><b>Trạng thái:</b> ${data.status}</p>
+                     <p><b>Thông báo:</b> ${data.message}</p>
+                     <p><b>QR Thanh toán:</b></p>
+                     <img src="https://qr.sepay.vn/img?bank=Vietcombank&acc=01234567&template=compact&amount=109&des="
+                          alt="QR Payment" />`;
+            } else {
+                resultDiv.innerHTML =
+                    `<p><b>Trạng thái:</b> ${data.status}</p>
+                     <p><b>Thông báo:</b> ${data.message}</p>`;
+            }
+        });
+    });
+</script>
+</body>
+</html>

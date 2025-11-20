@@ -206,6 +206,31 @@ services:
       - app-network
 
 
+
+  notificationservice:
+    build:
+      context: ./services/NotificationService
+      dockerfile: Dockerfile.dev
+    container_name: notificationservice
+    ports:
+      - "8888:8888"
+    depends_on:
+      - mysql-db
+    volumes:
+      - ./services/NotificationService/src:/app/src
+      - ./services/NotificationService/pom.xml:/app/pom.xml
+      - ~/.m2/repository:/root/.m2/repository
+    environment:
+      SERVER_PORT: 8888
+      JWT_SECRET: ${JWT_SECRET}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_PORT: ${RABBITMQ_PORT}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      TZ: ${TZ}
+    networks:
+      - app-network
+
   apigateway:
     build:
       context: ./services/APIGateWay

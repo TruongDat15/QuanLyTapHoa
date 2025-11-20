@@ -11,6 +11,7 @@ public class RabbitConstants {
     public static final String INVENTORY_ORDER_QUEUE = "inventory.order.queue";
     public static final String INVENTORY_PAYMENT_QUEUE = "inventory.payment.queue";
     public static final String PAYMENT_QUEUE = "payment.queue";
+    public static final String NOTIFICATION_QUEUE = "notification.queue";
     public static final String INVOICE_QUEUE = "invoice.queue";
 
     // Routing keys

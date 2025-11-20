@@ -12,12 +12,8 @@ public interface OrderService {
 
 
     OrderDTO pendingOrder(OrderDTO orderDTO);
-    OrderDTO cancelOrder(UUID orderId);
-    OrderDTO completeOrder(UUID orderId);
-    OrderDTO findOrderById(UUID orderId);
-    List<OrderDTO> findByStatus(OrderStatus status);
-    List<OrderDTO> findAllOrders();
 
+    OrderDTO findOrderById(UUID orderId);
 
     Optional<OrderDTO> updateStatus(UUID orderId, OrderStatus orderStatus);
 
@@ -28,4 +24,5 @@ public interface OrderService {
 
     // delete a draft order if it belongs to cashierId and is DRAFT; returns true if deleted
     boolean deleteDraft(UUID orderId, String cashierId);
+
 }

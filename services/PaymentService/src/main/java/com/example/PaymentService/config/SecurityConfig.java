@@ -18,6 +18,7 @@ public class SecurityConfig {
 
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/payment/public/**").permitAll()
                         .anyRequest()
                         .authenticated())   // tạm thời bỏ xác thực để dễ test
                 .addFilterBefore(new HeaderAuthFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
