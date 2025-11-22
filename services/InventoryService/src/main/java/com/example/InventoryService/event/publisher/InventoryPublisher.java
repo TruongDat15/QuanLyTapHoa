@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class InventoryPublisher {
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
+
+    public InventoryPublisher(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     public void publishInventoryReservedEvent(OrderDTO orderDTO){
         rabbitTemplate.convertAndSend(
@@ -19,7 +22,7 @@ public class InventoryPublisher {
                 INVENTORY_RESERVED_KEY,
                 orderDTO
         );
-        System.out.println(" Gui sự kiện giữ tạm kho thành công");
+        System.out.println("✅ 1.3 Gui sự kiện giữ tạm kho thành công cho đơn hàng: " + orderDTO.getOrderId());
     }
 
     public void publishInventoryFailedEvent(OrderDTO orderDTO){
@@ -29,8 +32,13 @@ public class InventoryPublisher {
                 INVENTORY_REJECTED_KEY,
                 orderDTO
         );
-        System.out.println("Khong du ton kho, thay doi hoac dois");
+
+        // nên gửi về thiếu cái gì nữa
+        System.out.println("⛔   Khong du ton kho, thay doi hoac dois");
     }
+
+
+    // bỏ
 
     public void publishPaymentEvent(OrderDTO orderDTO){
         rabbitTemplate.convertAndSend(

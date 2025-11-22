@@ -2,13 +2,14 @@ package com.example.OrderService.service.Impl;
 
 import com.example.OrderService.entity.Order;
 import com.example.OrderService.entity.OrderItem;
-import com.example.OrderService.repository.OrderItemRepository;
+import com.example.OrderService.event.publisher.OrderCreatedEvent;
 import com.example.OrderService.repository.OrderRepository;
 import com.example.OrderService.service.OrderService;
 import com.example.common.constrants.RabbitConstants;
 import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.common.dto.orderdtos.OrderItemDTO;
 import com.example.common.enums.OrderStatus;
+import com.example.common.enums.PaymentStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -30,7 +31,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final RabbitTemplate rabbitTemplate;
-    private final OrderItemRepository orderItemRepository;
+    private final OrderCreatedEvent orderCreatedEvent;
+
 
     @Override
     @Transactional
@@ -57,18 +59,21 @@ public class OrderServiceImpl implements OrderService {
                 .build();
     }
 
+
+    // ################################ Thay đổi logic lần 1, Chỉ có đơn nháp hoặc hoàn thành ###############################
+
     @Transactional
-    @Override
+//    @Override
     public OrderDTO pendingOrder(OrderDTO orderDTO) {
 
         log.info("Processing pending order: {}", orderDTO.getOrderId());
         Order order = orderRepository.findById(orderDTO.getOrderId())
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        // --- Thêm check trạng thái draft ---
+        // --- Thêm check trạng thái processing ---
         if (order.getStatus() != OrderStatus.DRAFT) {
             throw new IllegalStateException(
-                    "Only draft orders can be moved to pending. Current status: " + order.getStatus()
+                    "Only Draft can be moved to pending. Current status: " + order.getStatus()
             );
         }
 
@@ -104,14 +109,15 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(total);
         orderDTO.setTotalPrice(total);
         order.setPaymentMethod(orderDTO.getPaymentMethod());
+        order.setPaymentStatus(orderDTO.getPaymentStatus());
 
 
-        //
-        order.setStatus(OrderStatus.PROCESSING);
+        //  Bỏ cái processing vì FE không dùng trạng thái này nữa
+     //    order.setStatus(OrderStatus.PROCESSING);
         // chỉ save order một lần để tránh nhiều lần cập nhật tăng version
         orderRepository.save(order);
 
-        log.info("✅ ORDER SERVICE: Xử lí trạng thái nhận danh sách đơn hàng {}", order.getOrderId());
+        log.info("✅ 1.1 ORDER SERVICE: Xử lí trạng thái nhận danh sách đơn hàng {}", order.getOrderId());
         rabbitTemplate.convertAndSend(RabbitConstants.ORDER_EXCHANGE, RabbitConstants.ORDER_CREATED_KEY, orderDTO);
         return OrderDTO.builder()
                 .status(order.getStatus())
@@ -121,17 +127,29 @@ public class OrderServiceImpl implements OrderService {
                 .orderId(order.getOrderId())
                 .cashierId(order.getCashierId())
                 .customerId(order.getCustomerId())
+                .paymentStatus(order.getPaymentStatus())
         //        .orderItemDTOs(orderDTO.getOrderItemDTOs())
                 .build();
     }
 
     @Override
     public OrderDTO findOrderById(UUID orderId) {
-        return null;
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        return OrderDTO.builder()
+                .orderId(order.getOrderId())
+                .status(order.getStatus())
+                .cashierId(order.getCashierId())
+                .createdAt(order.getCreatedAt())
+                .totalPrice(order.getTotalAmount())
+                .paymentMethod(order.getPaymentMethod())
+                .paymentStatus(order.getPaymentStatus())
+                .customerId(order.getCustomerId())
+                .build();
     }
 
     @Override
-    public Optional<OrderDTO> updateStatus(UUID orderId, OrderStatus orderStatus) {
+    public Optional<OrderDTO> updateOrderStatus(UUID orderId, OrderStatus orderStatus) {
         try {
             Order order = orderRepository.findById(orderId)
                     .orElseThrow(() -> new RuntimeException("Order not found"));
@@ -165,20 +183,14 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderDTO.getOrderId())
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        if (order.getStatus() != OrderStatus.DRAFT) {
-            throw new IllegalArgumentException("Only draft orders can be updated");
-        }
-
         // ownership check: caller must be the cashier who created the draft
         if (orderDTO.getCashierId() == null || !orderDTO.getCashierId().equals(order.getCashierId())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not authorized to update this draft");
         }
-
         // Cập nhật customerId nếu FE gửi lên
         if (orderDTO.getCustomerId() != null && !orderDTO.getCustomerId().isBlank()) {
             order.setCustomerId(orderDTO.getCustomerId());
         }
-
         // remove existing items using orphanRemoval by clearing the collection — không save tạm để tránh tăng version nhiều lần
         if (order.getOrderItems() == null) {
             order.setOrderItems(new ArrayList<>());
@@ -222,6 +234,8 @@ public class OrderServiceImpl implements OrderService {
             order.setPaymentMethod(orderDTO.getPaymentMethod());
         }
 
+        order.setPaymentStatus(orderDTO.getPaymentStatus());
+
         // save order 1 lần
         orderRepository.save(order);
 
@@ -240,6 +254,7 @@ public class OrderServiceImpl implements OrderService {
                 .totalPrice(order.getTotalAmount())
                 .orderItemDTOs(itemDTOs)
                 .paymentMethod(order.getPaymentMethod())
+                .paymentStatus(order.getPaymentStatus())
                 .customerId(order.getCustomerId())
                 .build();
     }
@@ -290,6 +305,56 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
+    @Transactional
+    @Override
+    public OrderDTO updateOrder(UUID orderId, PaymentStatus paymentStatus) {
 
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setPaymentStatus(paymentStatus);
+        if (paymentStatus == PaymentStatus.COMPLETED) {
+            order.setStatus(OrderStatus.COMPLETED);
+        } else if (paymentStatus == PaymentStatus.DRAFT) {
+            order.setStatus(OrderStatus.DRAFT);
+        }
+        orderRepository.save(order);
+
+        OrderDTO orderDTO = OrderDTO.builder()
+                .orderId(order.getOrderId())
+                .status(order.getStatus())
+                .cashierId(order.getCashierId())
+                .createdAt(order.getCreatedAt())
+                .totalPrice(order.getTotalAmount())
+                .paymentMethod(order.getPaymentMethod())
+                .paymentStatus(order.getPaymentStatus())
+                .customerId(order.getCustomerId())
+                .build();
+
+        return orderDTO;
+    }
+
+    @Transactional
+    @Override
+    public OrderDTO payOrder(UUID orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        OrderDTO orderDTO = OrderDTO.builder()
+                .orderId(order.getOrderId())
+                .status(order.getStatus())
+                .cashierId(order.getCashierId())
+                .createdAt(order.getCreatedAt())
+                .totalPrice(order.getTotalAmount())
+                .paymentMethod(order.getPaymentMethod())
+                .paymentStatus(order.getPaymentStatus())
+                .customerId(order.getCustomerId())
+                .build();
+        orderCreatedEvent.publishOrderCreated(orderDTO);
+        return orderDTO;
+    }
+
+    @Override
+    public void confirmOrderEvent(OrderDTO orderDTO) {
+        orderCreatedEvent.publishOrderCompleted(orderDTO);
+    }
 
 }

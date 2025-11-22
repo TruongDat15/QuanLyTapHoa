@@ -1,0 +1,17 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://admin:admin123@localhost:27017/testdb?authSource=admin
+      database: testdb
+
+  # Nếu bạn muốn logging rõ hơn khi kết nối
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    org.mongodb.driver.connection: INFO
+
+server:
+  port: 8090

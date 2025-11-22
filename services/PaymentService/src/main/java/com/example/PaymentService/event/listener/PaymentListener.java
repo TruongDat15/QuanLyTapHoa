@@ -27,25 +27,7 @@ public class PaymentListener {
     @RabbitListener(queues = PAYMENT_QUEUE)
     public void handlePaymentCreated(OrderDTO orderDTO, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
         log.info("NHẬN SỰ KỆN {} ", routingKey);
-        if(PAYMENT_REQUESTED_KEY.equals(routingKey)){
-            try{
-                // gọi service xủ lí logic thanh toán.
-                Payment payment = paymentService.processPayment(orderDTO);
-                log.info("Đang xử lý logic thanh toán");
 
-                if(payment.getStatus() == PaymentStatus.COMPLETED){
-                    // phát sự kiện thành công và yêu cầu cập nhật trạng thái đơn hàng, truwf kho.
-                    paymentService.publishPaymentCompleted(payment);
-                    log.info(" GỬI SỰ KIỆN THANH TOÁN THÀNH CÔNG");
-                }else if(payment.getStatus() == PaymentStatus.PENDING){
-                    // gọi api lấy QR code cho fe
 
-                }
-
-            }catch (Exception e){
-                throw new RuntimeException("Failed to update payment for Order ID: " + orderDTO.getOrderId());
-            }
-        }
-        log.info(" Nhận được tin nhăns rồi");
     }
 }

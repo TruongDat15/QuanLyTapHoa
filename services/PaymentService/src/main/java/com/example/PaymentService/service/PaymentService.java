@@ -22,55 +22,50 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentPublisher paymentPublisher;
 
-    public Payment processPayment(OrderDTO orderDTO) {
+    // cập nhật trang thái thanh toán và bắn sự kiện cho kho rôi sau đó mới bắn sự kiện cho order
+    public Payment confirmPayment(OrderDTO orderDTO) {
+//        Optional<Payment> optionalPayment = paymentRepository.findByOrderId(orderDTO.getOrderId());
+//
+//        if (optionalPayment.isPresent()) {
+//            Payment payment = optionalPayment.get();
 
-        Payment payment = Payment.builder()
-                .orderId(orderDTO.getOrderId())
-                .paymentMethod(orderDTO.getPaymentMethod())
-                .amount(orderDTO.getTotalPrice())
-                .createDate(LocalDate.now())
-                .paymentMethod(orderDTO.getPaymentMethod())
-                .build();
+            Payment payment = new Payment();
 
-        // lấy phương thức thanh toán và xử lý
-        switch (orderDTO.getPaymentMethod()) {
-            case CASH:
-                payment.setStatus(PaymentStatus.COMPLETED);
-                payment.setTransactionId(UUID.randomUUID().toString());
-                log.info("THANH TOAN TIEN MAT");
-                break;
-            case BANK:
-                payment.setStatus(PaymentStatus.PENDING);
-                payment.setTransactionId(UUID.randomUUID().toString());
-                log.info("THANH TOAN QRCODE - CHO XAC NHAN");
-                break;
-            case WALLET:
-                payment.setStatus(PaymentStatus.PENDING);
-                log.info("THANH TOAN VI DIEN TU - THAT BAI");
-                break;
-            default:
-                break;
-        }
+            // Cập nhật trạng thái thanh toán dựa trên phương thức thanh toán
+            switch (orderDTO.getPaymentMethod()) {
+                case CASH:
+                    payment.setStatus(PaymentStatus.COMPLETED);
+                    payment.setTransactionId(UUID.randomUUID().toString());
+                    log.info("THANH TOAN TIEN MAT");
 
-        return paymentRepository.save(payment);
+                    // gửi sự kiện thanh toán hoàn tất trừ kho
+
+                    break;
+                case BANK:
+                    payment.setStatus(PaymentStatus.PENDING);
+                    payment.setTransactionId(UUID.randomUUID().toString());
+                    log.info("THANH TOAN QRCODE - CHO XAC NHAN");
+                    break;
+                case WALLET:
+                    payment.setStatus(PaymentStatus.PENDING);
+                    log.info("THANH TOAN VI DIEN TU - THAT BAI");
+                    break;
+                default:
+                    break;
+            }
+
+            paymentRepository.save(payment);
+            return payment;
+
+//        } else {
+//            log.error("Payment not found for Order ID: " + orderDTO.getOrderId());
+//            throw new RuntimeException("Payment not found for Order ID: " + orderDTO.getOrderId());
+//        }
     }
 
-    public void publishPaymentCompleted(Payment payment) {
-        // chuyển payment sang dto
-        PaymentResultDTO paymentResultDTO = PaymentResultDTO.builder()
-                .paymentId(payment.getPaymentId())
-                .orderId(payment.getOrderId())
-                .status(payment.getStatus())
-                .paymentMethod(payment.getPaymentMethod())
-                .amount(payment.getAmount())
-                .transactionId(payment.getTransactionId())
-                .createDate(payment.getCreateDate())
-                .updateDate(payment.getUpdateDate())
-                .paymentReference(payment.getPaymentReference())
-                .paymentNote(payment.getPaymentNote())
-                .build();
+    public void publishPaymentCompleted(String ok) {
 
-        paymentPublisher.publishPaymentCompletedEvent(paymentResultDTO);
+        paymentPublisher.publishPaymentCompletedEvent(ok);
 
     }
 }

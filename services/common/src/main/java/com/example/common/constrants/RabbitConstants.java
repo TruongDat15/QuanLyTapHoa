@@ -19,6 +19,9 @@ public class RabbitConstants {
     public static final String INVENTORY_KEY = "inventory.*";
     public static final String PAYMENT_KEY = "payment.*";
     public static final String ORDER_CREATED_KEY = "order.created";
+    public static final String ORDER_PENDING_KEY = "order.pending";
+    public static final String ORDER_COMPLETED_KEY = "order.completed";
+    public static final String ORDER_CANCELLED_KEY = "order.cancelled";
     public static final String INVENTORY_RESERVED_KEY = "inventory.reserved";
     public static final String INVENTORY_REJECTED_KEY = "inventory.rejected";
     public static final String PAYMENT_REQUESTED_KEY = "payment.requested";

@@ -2,6 +2,7 @@ package com.example.OrderService.service;
 
 import com.example.common.dto.orderdtos.OrderDTO;
 import com.example.common.enums.OrderStatus;
+import com.example.common.enums.PaymentStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,12 +11,9 @@ import java.util.UUID;
 public interface OrderService {
     OrderDTO createDraftOrder(String cashierID);
 
-
-    OrderDTO pendingOrder(OrderDTO orderDTO);
-
     OrderDTO findOrderById(UUID orderId);
 
-    Optional<OrderDTO> updateStatus(UUID orderId, OrderStatus orderStatus);
+    Optional<OrderDTO> updateOrderStatus(UUID orderId, OrderStatus orderStatus);
 
     OrderDTO updateDraftOrder(OrderDTO orderDTO);
 
@@ -25,4 +23,9 @@ public interface OrderService {
     // delete a draft order if it belongs to cashierId and is DRAFT; returns true if deleted
     boolean deleteDraft(UUID orderId, String cashierId);
 
+    OrderDTO updateOrder(UUID orderId, PaymentStatus paymentStatus);
+
+    OrderDTO payOrder(UUID orderId);
+
+    void confirmOrderEvent(OrderDTO orderDTO);
 }

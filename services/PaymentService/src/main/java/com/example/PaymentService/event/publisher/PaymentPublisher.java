@@ -12,14 +12,17 @@ import static com.example.common.constrants.RabbitConstants.*;
 @Service
 public class PaymentPublisher {
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
-    public void publishPaymentCompletedEvent(PaymentResultDTO paymentResultDTO) {
+    public PaymentPublisher(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
+    public void publishPaymentCompletedEvent(String ok) {
         rabbitTemplate.convertAndSend(
                 ORDER_EXCHANGE,
                 PAYMENT_COMPLETED_KEY,
-                paymentResultDTO
+                ok
         );
         System.out.println(" Gui sự kiện thanh toán thành công");
     }

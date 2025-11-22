@@ -20,16 +20,16 @@ public class PaymentListener {
     private final ProductService productService;
     private final InventoryPublisher publisher;
 
-    @RabbitListener(queues = INVENTORY_PAYMENT_QUEUE)
+    @RabbitListener(queues = INVENTORY_ORDER_QUEUE)
     public void handlePaymentEvent(PaymentResultDTO paymentResultDTO, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
         log.info("Nhận được tin thanh toán {}", routingKey );
 
         switch (routingKey){
-            case PAYMENT_COMPLETED_KEY:
+            case ORDER_COMPLETED_KEY:
                 productService.handlePaymentCompleted(paymentResultDTO);
-                System.out.println("Thanh toán thành công");
+                System.out.println("Thanh toán thành công" + paymentResultDTO);
                 break;
-            case PAYMENT_FAILED_KEY:
+            case ORDER_CANCELLED_KEY:
                 productService.handlePaymentFailed(paymentResultDTO);
                 System.out.println("Thanh toán thất bại");
                 break;

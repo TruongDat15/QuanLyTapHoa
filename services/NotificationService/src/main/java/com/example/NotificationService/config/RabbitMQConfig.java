@@ -17,12 +17,6 @@ import static com.example.common.constrants.RabbitConstants.*;
 @Configuration
 @EnableRabbit
 public class RabbitMQConfig {
-//
-//    @Bean
-//    public Queue inventoryOrderQueue() { return new Queue(INVENTORY_ORDER_QUEUE, false); }
-//
-//    @Bean
-//    public Queue inventoryPaymentQueue() { return new Queue(INVENTORY_PAYMENT_QUEUE, false); }
 
     @Bean
     public Queue notificationQueue() { return new Queue(NOTIFICATION_QUEUE, false); }
@@ -38,6 +32,14 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(notificationQueue).to(exchange).with(ORDER_KEY);
     }
 
+    @Bean
+    public Binding inventoryRevesedBinding(Queue notificationQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(notificationQueue).to(exchange).with(INVENTORY_KEY);
+    }
+    @Bean
+    public Binding paymentCompletedBinding(Queue notificationQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(notificationQueue).to(exchange).with(PAYMENT_KEY);
+    }
 
     // JSON converter
     @Bean

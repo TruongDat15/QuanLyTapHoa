@@ -47,3 +47,8 @@ server:
   application:
     name: order-service
 
+logging:
+  level:
+    org:
+      springframework:
+        security=DEBUG:

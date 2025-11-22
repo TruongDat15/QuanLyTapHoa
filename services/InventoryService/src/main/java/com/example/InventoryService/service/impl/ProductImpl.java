@@ -290,6 +290,8 @@ public class ProductImpl implements ProductService {
                 // Ném lỗi để kích hoạt ROLLBACK toàn bộ giao dịch
                 throw new RuntimeException(error);
             }
+
+
             // Cập nhật reservedQuantity
             product.setReservedQuantity(product.getReservedQuantity() + itemDTO.getQuantity());
             productRepository.save(product);

@@ -4,6 +4,7 @@ package com.example.common.dto.orderdtos;
 
 import com.example.common.enums.OrderStatus;
 import com.example.common.enums.PaymentMethod;
+import com.example.common.enums.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,6 @@ public class OrderDTO {
     private PaymentMethod paymentMethod;
     private LocalDateTime createdAt;
     private List<OrderItemDTO> orderItemDTOs;
-
+    private PaymentStatus paymentStatus;
 }
 

@@ -2,13 +2,17 @@ package com.example.OrderService.entity;
 
 import com.example.common.enums.OrderStatus;
 import com.example.common.enums.PaymentMethod;
+import com.example.common.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.Builder.Default;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+
+@Builder
 @Entity
 @Table(name = "orders")
 @Getter
@@ -27,7 +31,11 @@ public class Order {
 
     private PaymentMethod paymentMethod;
 
+    @Default
+    private PaymentStatus paymentStatus = PaymentStatus.DRAFT;
+
     private double totalAmount;
+
     private OrderStatus status;
 
     @Column(updatable = false)
